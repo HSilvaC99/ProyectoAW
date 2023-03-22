@@ -40,19 +40,19 @@
             </div>
 
             <div class="col-sm-12 col-md-4 col-lg-2">
-              <p><a href="#" class="bot">Novedades</a></p>
+              <p><a href="product.php" class="bot">Productos</a></p>
             </div>
             <div class="col-sm-12 col-md-4 col-lg-2">
-              <p><a href="#" class="bot">Ofertas</a></p>
+              <p><a href="foro.php" class="bot">Foro</a></p>
             </div>
             <div class="col-sm-12 col-md-4 col-lg-2">
-              <p><a href="info.php" class="bot">Informaión</a></p>
+              <p><a href="info.php" class="bot">Información</a></p>
             </div>
             <div class="col-sm-12 col-md-4 col-lg-2">
               <p><a href="contact.php" class="bot">Contacto</a></p>
             </div>
             <div class="col-sm-12 col-md-4 col-lg-2">
-              <p><a href="faqs.php" class="bot">FAQs</a></p>
+              <p><a href="eventos.php" class="bot">Eventos</a></p>
             </div>
             <div class="col-md-1">
               <button class="btn btn-primary rounded-circle" onclick="topFunction()" title="Ir arriba">^</button>
