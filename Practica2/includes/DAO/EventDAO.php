@@ -1,13 +1,9 @@
 <?php
+namespace es\ucm\fdi\aw;
 
-    class EventDAO extends DAO {
-        public function __construct(PDO $connection) {
-            parent::__construct("eventos", $connection);
-        }
-
-        public function create($data) {
-            $this->insert($data);
-        }
-    }
-
+class EventDAO extends DAO {
+	public function __construct() {
+		parent::__construct("eventos");
+	}
+}
 ?>

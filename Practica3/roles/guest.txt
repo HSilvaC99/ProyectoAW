@@ -1,1 +1,1 @@
-products.read
+product.read

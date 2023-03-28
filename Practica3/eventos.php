@@ -1,6 +1,7 @@
 <?php require "includes/comun/header.php"; ?>
 
 <?php
+    require "includes/comun/header.php";
 
     $templateID = 'templateID';
 
@@ -43,4 +44,6 @@
     </div>
 </div>
 
-<?php require "includes/comun/footer.php" ?>
+<?php
+    require "includes/comun/footer.php";
+?>

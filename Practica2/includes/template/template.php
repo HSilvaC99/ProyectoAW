@@ -11,11 +11,11 @@
 </head>
 <body>
 <div>
-  <?php require dirname(__DIR__) . '/common/navbar.php' ?>
+  <?php require 'includes/common/navbar.php' ?>
   <main>
 	  <?= $content ?>
   </main>
-	<?php require dirname(__DIR__) . '/common/footer.php' ?>
+	<?php require 'includes/common/footer.php' ?>
 </div>
 </body>
 </html>

@@ -138,7 +138,7 @@ require "includes/comun/header.php";
       <div class="form-check col-md-9">
         <input type="checkbox" class="form-check-input" id="same-address" required>
         <label class="form-check-label" for="same-address">Marque esta casilla para verificar que ha leído nuestros <a
-            href="#">política de privacidad</a> y los <a href="#">términos y condiciones</a> del servicio.</label>
+            href="info.php#politica">política de privacidad</a> y los <a href="info.php#condiciones">términos y condiciones</a> del servicio.</label>
       </div>
     </div>
 
@@ -147,4 +147,5 @@ require "includes/comun/header.php";
     <button class="w-100 btn btn-primary btn-lg" type="submit">Registrarse</button>
   </form>
 </div>
+<br><br>
 <?php require "includes/comun/footer.php" ?>

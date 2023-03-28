@@ -9,6 +9,7 @@
     "contact.php" => 'Contacto',
     "info.php" => 'Información'
   );
+  
 ?>
 <nav class="navbar navbar-dark bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
   <div class="container-fluid">

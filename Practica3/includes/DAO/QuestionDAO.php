@@ -1,34 +1,25 @@
-<?php
-class QuestionDAO extends DAO
-{
-  public function __construct(PDO $connection)
+<?php 
+namespace es\ucm\fdi\aw\DAO;
+class QuestionDAO extends DAO 
+{ 
+  public function __construct()
   {
-    parent::__construct("foro_preguntas", $connection);
-  }
-
-  public function create($data)
-  {
-    $this->insert($data);
+    parent::__construct("foro_preguntas");
   }
 
   public function deleteById($id)
   {
-    $this->delete('id', $id);
+    $this->delete('id', $id); 
   }
 
-  public function getById($id)
-  {
-    $this->get('id', $id);
-  }
+  public function getById($id) 
+  { 
+    $this->get('id', $id); 
+  } 
 
-  public function updateQ($id, $column, $value)
-{
-    $this->updateOnce('id', $id, $column, $value);
-}
-
-  
-  
-
-}
+  public function updateQ($id, $column, $value) 
+{ 
+    $this->updateOnce('id', $id, $column, $value); 
+} 
+} 
 ?>
-

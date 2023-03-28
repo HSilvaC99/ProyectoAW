@@ -11,7 +11,6 @@
     "foro.php" => 'Foro',
     "eventos.php" => 'Eventos',
     "contact.php" => 'Contacto',
-    "foro.php" => 'Foro',
     "info.php" => 'Información'
   );
   
