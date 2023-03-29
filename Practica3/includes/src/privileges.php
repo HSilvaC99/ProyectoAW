@@ -1,6 +1,6 @@
 <?php
 
-namespace es\ucm\fdi\aw;
+namespace es\ucm\fdi\aw\src;
 
 class Privileges
 {
@@ -14,7 +14,7 @@ class Privileges
     }
 
     public static function buildFromUser($connection, $userMail) {
-        $userRolesDAO = new UserRolesDAO($connection);
+        $userRolesDAO = new \es\ucm\fdi\aw\DAO\UserRolesDAO($connection);
         $userRoles = $userRolesDAO->get('mail', $userMail);
         $privileges = new Privileges();
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace es\ucm\fdi\aw;
+namespace es\ucm\fdi\aw\DAO;
 
 require_once 'DAO.php';
 

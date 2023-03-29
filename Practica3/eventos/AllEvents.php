@@ -1,8 +1,8 @@
 <?php
-    require_once dirname(__DIR__).'\includes\config.php';
+    require_once dirname(__DIR__).'/includes/config.php';
 
-    use es\ucm\fdi\aw\Role as Role;
-    use es\ucm\fdi\aw\UserRolesDAO as UserRolesDAO;
+    use \es\ucm\fdi\aw\src\Role as Role;
+    use \es\ucm\fdi\aw\DAO\EventDAO as EventDAO;
 
     $defaultRole = Role::getDefaultRole();
 
@@ -12,13 +12,32 @@
 <p class="h2">Eventos</p>
 <br>
 
-<?php
-    $userRolesDAO = new UserRolesDAO();
-    $results = $userRolesDAO->getAll();
-
-    var_dump($results);
-?>
-
+<table class="table table-striped">
+    <thead>
+        <th scope="col">Nombre</th>
+    </thead>
+    <tbody>
+        <form action="eventos.php">
+            <input type="hidden" name="templateID" value="ViewSingleEvent">
+            <?php
+                $eventsDAO = new EventDAO();
+                $results = $eventsDAO->getAll();
+        
+                foreach ($results as $row):
+            ?>
+                <tr scope="row">
+                    <td class="text-nowrap">
+                        <button type="submit" class="btn btn-link text-decoration-none text-primary" name="eventID" value="<?=$row['id']?>">
+                            <?=$row['nombre']?>
+                        </button>    
+                    </td>
+                </tr>
+            <?php
+                endforeach
+            ?>
+        </form>
+    </tbody>
+</table>
 <?php else: ?>
 
 <div class="alert alert-warning">

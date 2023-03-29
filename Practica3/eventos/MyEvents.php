@@ -1,6 +1,7 @@
 <?php
-    require_once 'includes/src/role.php';
-    require_once 'includes/src/privileges.php';
+    require_once dirname(__DIR__).'/includes/config.php';
+
+    use \es\ucm\fdi\aw\src\Role as Role;
 
     $defaultRole = Role::getDefaultRole();
 
