@@ -3,9 +3,9 @@
 
     use \es\ucm\fdi\aw\src\Role as Role;
 
-    $defaultRole = Role::getDefaultRole();
+    $role = Role::getCurrentUsersRole();
 
-    if ($defaultRole->getPrivileges()->hasPrivilege('events.my_events.read')):
+    if ($role->getPrivileges()->hasPrivilege('events.my_events.read')):
 ?>
 
 <p class="h2">Mis eventos</p>

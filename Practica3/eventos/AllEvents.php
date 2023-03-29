@@ -4,9 +4,9 @@
     use \es\ucm\fdi\aw\src\Role as Role;
     use \es\ucm\fdi\aw\DAO\EventDAO as EventDAO;
 
-    $defaultRole = Role::getDefaultRole();
+    $role = Role::getCurrentUsersRole();
 
-    if ($defaultRole->getPrivileges()->hasPrivilege('events.all_events.read')):
+    if ($role->getPrivileges()->hasPrivilege('events.all_events.read')):
 ?>
 
 <p class="h2">Eventos</p>
