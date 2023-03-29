@@ -1,5 +1,8 @@
 <?php
-namespace es\ucm\fdi\aw\DAO;
+
+namespace es\ucm\fdi\aw;
+
+require_once 'DAO.php';
 
 class UserRolesDAO extends DAO {
 

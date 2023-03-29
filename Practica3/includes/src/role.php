@@ -1,5 +1,7 @@
 <?php
 
+namespace es\ucm\fdi\aw;
+
 class Role {
     const ROLE_DIR = 'roles';
 
@@ -11,6 +13,9 @@ class Role {
         $this->m_Privileges = new Privileges();
     }
 
+    public static function getDefaultRole() {
+        return self::createFromFile('guest');
+    }
     public static function createFromFile($filename) {
         $file = fopen(self::ROLE_DIR.'/'.$filename.'.txt', 'r');
 

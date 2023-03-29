@@ -1,12 +1,9 @@
-<?php require "includes/comun/header.php"; ?>
-
 <?php
-    require "includes/comun/header.php";
-
     $templateID = 'templateID';
-
+    $title = 'Eventos';
 ?>
 
+<?php ob_start(); ?>
 <div class="d-flex flex-row">
     <div class="bg-dark px-4 py-5" style="width: 300px">
         <form action="eventos.php" method="GET">
@@ -25,25 +22,27 @@
     </div>
     <div class="flex-fill px-4 py-3">
         <?php
-        
-            $templateFile = 'AllEvents.php';
+            $templateFile = 'AllEvents';
 
             if (isset($_GET[$templateID]))
-                $templateFile = $_GET[$templateID];
+                $templateFile  = $_GET[$templateID];
 
             $filepath = "eventos/{$templateFile}.php";
         
             if (file_exists($filepath)):
         ?>
+
             <?php require $filepath; ?>
+        
         <?php else: ?>
+        
             <div class="alert alert-warning">
                 No existe esta página
             </div>
+        
         <?php endif ?>
     </div>
 </div>
+<?php $content = ob_get_clean(); ?>
 
-<?php
-    require "includes/comun/footer.php";
-?>
+<?php require 'includes/template/template.php'; ?>

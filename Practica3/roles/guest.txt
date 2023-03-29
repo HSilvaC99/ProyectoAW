@@ -1,1 +1,3 @@
 product.read
+
+events.all_events.read

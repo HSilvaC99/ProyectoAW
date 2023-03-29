@@ -1,7 +1,6 @@
 <?php
 
-include 'role.php';
-include 'includes/DAO/UserRolesDAO.php';
+namespace es\ucm\fdi\aw;
 
 class Privileges
 {

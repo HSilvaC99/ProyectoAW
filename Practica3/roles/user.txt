@@ -1,3 +1,5 @@
 product.read
 
-event.read
+events.all_events.read
+events.my_events.read
+events.my_team.read
