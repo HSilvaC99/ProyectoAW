@@ -3,7 +3,7 @@ product.read
 product.update
 product.delete
 
-event.create
-event.read
-event.update
-event.delete
+event.all_events.create
+event.all_events.read
+event.all_events.update
+event.all_events.delete

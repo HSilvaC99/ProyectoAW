@@ -1,9 +1,9 @@
 <?php
-namespace es\ucm\fdi\aw\DAO;
+namespace es\ucm\fdi\aw\src\DAO;
 
 class EventDAO extends DAO {
 	public function __construct() {
-		parent::__construct("eventos");
+		parent::__construct("events");
 	}
 }
 ?>

@@ -2,8 +2,9 @@
 require_once __DIR__ . '/includes/config.php';
 
 $title = 'Inicio';
+?>
 
-$content = <<<EOS
+<?php ob_start() ?>
 <div class="text-center m-5">
   <h1>Hola</h1>
   <h1>Esto</h1>
@@ -11,7 +12,6 @@ $content = <<<EOS
   <h1>Una</h1>
   <h1>Portada</h1>
 </div>
-EOS;
+<?php $content = ob_get_clean(); ?>
 
-require __DIR__ . '/includes/template/template.php';
-?>
+<?php require __DIR__ . '/includes/template/template.php' ?>

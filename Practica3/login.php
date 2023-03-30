@@ -1,40 +1,35 @@
 <?php
-include 'database.php';
-include 'includes/DAO/DAO.php';
-include 'includes/DAO/UserDAO.php';
+  require_once __DIR__ . '/includes/config.php';
 
-$error = null;
+  use es\ucm\fdi\aw\src\DAO\UserDAO;
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $title = 'Login';
+  $error = null;
 
-  $database = new Database;
-  $connection = $database->getConnection();
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $userModel = new UserDAO();
+    $user = $userModel->get("mail", $_POST["mail"]);
+    $user = $user[0];
 
-  $userModel = new UserDAO($connection);
-  $user = $userModel->get("mail", $_POST["mail"]);
-
-  if (!$user)
-  {
-    $error = "¡Error! Credenciales incorrectas.";
-  }
-  else
-  {
-    if (!password_verify($_POST["password"], $user["password"]))
-    {
+    if (!$user) {
       $error = "¡Error! Credenciales incorrectas.";
     }
-    else
-    {
-      session_start();
-      unset($user["password"]);
-      $_SESSION["user"] = $user;
+    else {
+      if (!password_verify($_POST["password"], $user["password"])) {
+        $error = "¡Error! Credenciales incorrectas.";
+      }
+      else {
+        session_start();
+        unset($user["password"]);
+        $_SESSION["user"] = $user;
 
-      header("Location: index.php");
+        header("Location: index.php");
+      }
     }
   }
-}
-require "includes/comun/header.php";
 ?>
+
+<?php ob_start() ?>
 <div class="wrapper">
 <div class="container d-flex justify-content-center col-lg-4" id="borders-form">
   <form class="needs-validation" method="post" action="login.php">
@@ -73,4 +68,6 @@ require "includes/comun/header.php";
 </div>
 </div>
 <br><br>
-<?php require "includes/comun/footer.php" ?>
+<?php $content = ob_get_clean(); ?>
+
+<?php require 'includes/template/template.php'; ?>

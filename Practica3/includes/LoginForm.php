@@ -29,7 +29,7 @@ class LoginForm extends Form
 
     $mail = $data['mail'] ?? null; 
 
-    $usaer = new UserDAO(); 
+    $user = new UserDAO(); 
   } 
 } 
 ?>

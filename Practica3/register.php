@@ -1,19 +1,12 @@
 <?php
-include 'database.php';
-include 'includes/DAO/DAO.php';
-include 'includes/DAO/UserDAO.php';
-include 'includes/DAO/StateDAO.php';
 
-$database = new Database;
-$connection = $database->getConnection();
-
-$stateModel = new StateDAO($connection);
+use es\ucm\fdi\aw\DAO\UserDAO;
 
 $error = null;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
-  $userModel = new UserDAO($connection);
+  $userModel = new UserDAO();
   $user = $userModel->get("mail", $_POST["mail"]);
 
   if ($user)
@@ -42,11 +35,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
   }
 }
 
-$states = $stateModel->getAll();
-
-require "includes/comun/header.php";
+$states = array(
+  'Andalucía',
+  'Aragón',
+  'Principado de Asturias',
+  'Illes Balears',
+  'Canarias',
+  'Cantabria',
+  'Castilla y León',
+  'Castilla-La Mancha',
+  'Cataluña',
+  'Comunitat Valenciana',
+  'Extremadura',
+  'Galicia',
+  'Comunidad de Madrid',
+  'Región de Murcia',
+  'Comunidad Foral de Navarra',
+  'País Vasco',
+  'La Rioja',
+  'Ciudad Autónoma de Ceuta',
+  'Ciudad Autónoma de Melilla'
+);
 ?>
 
+<?php ob_start() ?>
 
 <div class="container d-flex col-lg-5" id="borders-form">
   <form class="needs-validation" action="register.php" method="post">
@@ -147,5 +159,7 @@ require "includes/comun/header.php";
     <button class="w-100 btn btn-primary btn-lg" type="submit">Registrarse</button>
   </form>
 </div>
-<br><br>
-<?php require "includes/comun/footer.php" ?>
+
+<?php $content = ob_get_clean(); ?>
+
+<?php require 'includes/template/template.php' ?>

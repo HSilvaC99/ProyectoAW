@@ -5,7 +5,7 @@
     "index.php" => 'Inicio',
     "product.php" => 'Productos',
     "foro.php" => 'Foro',
-    "eventos.php" => 'Eventos',
+    "events.php" => 'Eventos',
     "contact.php" => 'Contacto',
     "info.php" => 'Información'
   );
@@ -27,11 +27,6 @@
           <a class="nav-link<?= $key == $current_page ? ' active' : '' ?>" href="<?= $key?>"><?= $value ?></a>
         </li>
         <?php endforeach ?>
-        <?php if (isset($_SESSION["user"]) && $_SESSION["user"]["privileged"] == 1): ?>
-          <li class="nav-item">
-            <a class="nav-link <?= 'admin.php' == $current_page ? ' active' : '' ?>" href="admin.php">Admin Dashboard</a>
-          </li>
-        <?php endif ?>
       </ul>
       <?php if (isset($_SESSION["user"])): ?>
         <div class="dropdown">

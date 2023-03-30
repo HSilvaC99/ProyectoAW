@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="es">
+<html class="h-100" lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,13 +10,15 @@
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
   <title><?= $title ?></title>
 </head>
-<body>
-<div>
-  <?php require dirname(__DIR__) . '/common/navbar.php' ?>
-  <main>
-	  <?= $content ?>
-  </main>
-	<?php require dirname(__DIR__) . '/common/footer.php' ?>
-</div>
+
+<body class="h-100">
+  <div class="h-100">
+    <?php require dirname(__DIR__) . '/common/navbar.php' ?>
+    <main class="h-100">
+      <?= $content ?>
+    </main>
+    <?php require dirname(__DIR__) . '/common/footer.php' ?>
+  </div>
 </body>
+
 </html>

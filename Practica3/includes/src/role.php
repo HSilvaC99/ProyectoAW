@@ -2,7 +2,7 @@
 
 namespace es\ucm\fdi\aw\src;
 
-use \es\ucm\fdi\aw\DAO\UserRolesDAO as UserRolesDAO;
+use \es\ucm\fdi\aw\src\DAO\UserRolesDAO;
 
 class Role {
     const ROLE_DIR = 'roles';
@@ -17,18 +17,6 @@ class Role {
 
     public static function getDefaultRole() {
         return self::createFromFile('guest');
-    }
-    public static function getCurrentUsersRole() {
-        $role = Role::getDefaultRole();
-
-        if (isset($_SESSION['user'])) {
-            $userRolesDAO = new UserRolesDAO();
-            $roleName = $userRolesDAO->get('user_mail', $_SESSION['user']['role_name']);
-            
-            $role = Role::createFromFile($roleName);
-        }
-
-        return $role;
     }
     public static function createFromFile($filename) {
         $file = fopen(self::ROLE_DIR.'/'.$filename.'.txt', 'r');
