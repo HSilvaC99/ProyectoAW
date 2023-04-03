@@ -1,28 +1,11 @@
 
 
 <?php 
+require_once __DIR__ . '/includes/config.php'; 
 
+$title = 'FAQs'; 
 
-require "includes/comun/header.php";
-
-$entradas = array(
-"1. ENVÍOS Y ENTREGAS",
-"2. PAGOS Y PRECIOS",
-"3. DEVOLUCIONES, CAMBIOS Y GARANTÍA",
-"4. REALIZANDO LA COMPRA"
-);
-
-
-?>
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<!-- Incluir los archivos CSS de Bootstrap -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" integrity="sha512-pYwREmCNKuV7h1X9R+V7pPvKPmPztGXtpy+Qc1dh3a3Z+6OZiq0G0f6fdq3jKAGc6L5U6F5z6RIsjJhblvMsfA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-</head>
-<body>
+$content = <<<EOS
     <h1 class="mb-3 d-flex justify-content-center">PREGUNTAS FRECUENTES</h1><br>
     <hr class="border border-primary border-3 opacity-75">
     <div class = "container mb-5" style="border">
@@ -405,7 +388,7 @@ $entradas = array(
                 </div>
         </div>            
     </div>
-    </body>
-</html>
+EOS; 
 
-<?php require "includes/comun/footer.php"?>
+require __DIR__ . '/includes/template/template.php'; 
+?>

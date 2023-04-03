@@ -11,10 +11,10 @@
   <title><?= $title ?></title>
 </head>
 
-<body class="h-100">
-  <div class="h-100">
+<body >
+  <div >
     <?php require dirname(__DIR__) . '/common/navbar.php' ?>
-    <main class="h-100">
+    <main >
       <?= $content ?>
     </main>
     <?php require dirname(__DIR__) . '/common/footer.php' ?>
