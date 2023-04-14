@@ -14,25 +14,21 @@ $productID = $_GET["productID"];
 
 //Products
 $productDAO = new ProductDAO;
-$user = new UserDAO;
-$role = "guest";
-if(isset($_SESSION["user"])){
-    $role = $user->getUserRoles($_SESSION["user"]->getID())[0]->getRoleName();
-}
-
-$productDTOResults = $productDAO->read($productID)[0];
+$productDTOResults = $productDAO->read($productID);
 $productsPath = 'images/products/';
 $error = "";
 
-if (isset($productDTOResults)) {
+if (isset($productDTOResults))
     $product = $productDTOResults;
-  
+
+$user = new UserDAO;
+
+$role = "guest";
+if (isset($_SESSION["user"]))
+    $role = $user->getUserRoles($_SESSION["user"]->getID())[0]->getRoleName();
+
 //User Intermediate
 $userReviewDAO = new UserReviewDAO;
-
-//User
-$user = new UserDAO;
-//$role = $user->getUserRoles($_SESSION["user"]->getID())[0]->getRoleName();
 
 //Reviews
 $reviewsDAO = new ReviewsDAO;
@@ -101,64 +97,60 @@ $error
                 <h3> <?= $product->getName() ?> </h3>
             </div>
             <hr class="mt-2">
-            <?php
-                if ($product->getOffer() != 0) {
-            ?>
-                <?php
-                    if ($product->getOffer() ==100) {
-                ?>
-                <div class="row ">
-                    <h3 class ="col md-5 ms-3"><?= number_format($product->getOfferPrice(),2)?>€</h3>   
-                    <h3 class="text-decoration text-success col md-5"> GRATIS! </h3>
-                    <h5 class="text-decoration-line-through text-danger row m-3"><?= number_format($product->getPrice(),2) ?>€</h5>
+            <?php if ($product->getOffer() != 0) : ?>
+                <?php if ($product->getOffer() == 100) : ?>
+                    <div class="row ">
+                        <h3 class="col md-5 ms-3"><?= number_format($product->getOfferPrice(), 2) ?>€</h3>
+                        <h3 class="text-decoration text-success col md-5"> GRATIS! </h3>
+                        <h5 class="text-decoration-line-through text-danger row m-3"><?= number_format($product->getPrice(), 2) ?>€</h5>
                     </div>
-                <?php } else { ?>
-                    <h3><?= number_format($product->getOfferPrice(),2)?>€</h3>   
-                    <h5 class="text-decoration-line-through text-danger"><?= number_format($product->getPrice(),2) ?>€</h5>
-                <?php } ?>
-            <?php } else { ?>
-                <h3><?=  number_format($product->getPrice(),2) ?>€</h3>
-            <?php } ?>
+                <?php else : ?>
+                    <h3><?= number_format($product->getOfferPrice(), 2) ?>€</h3>
+                    <h5 class="text-decoration-line-through text-danger"><?= number_format($product->getPrice(), 2) ?>€</h5>
+                <?php endif ?>
+            <?php else : ?>
+                <h3><?= number_format($product->getPrice(), 2) ?>€</h3>
+            <?php endif ?>
             <div class="d-flex flex-row">
-                <?php if ($role == "admin"): ?>
+                <?php if (isset($_SESSION["isAdmin"]) && $_SESSION["isAdmin"] == true) : ?>
                     <?= ($offerForm = new es\ucm\fdi\aw\forms\OfferForm($productID))->handleForm(); ?>
                 <?php endif ?>
             </div>
             <div class="buttons py-3">
                 <!-- AQUI HAY QUE HACER OTRO FORM PARA EL BOTON DE COMPRAR -->
                 <button class="btn btn-primary " id="buy-now">Buy Now</button>
-                <?php if(!isset($_SESSION["user"])){ ?>
-                    <?= ($cartForm = new es\ucm\fdi\aw\forms\CartForm(null,$productID))->handleForm(); ?>
-                <?php } else { ?>
-                    <?= ($cartForm = new es\ucm\fdi\aw\forms\CartForm($_SESSION["user"]->getID(),$productID))->handleForm(); ?>
-                <?php } ?
+                <?php if (!isset($_SESSION["user"])) : ?>
+                    <?= ($cartForm = new es\ucm\fdi\aw\forms\CartForm(null, $productID))->handleForm(); ?>
+                <?php else : ?>
+                    <?= ($cartForm = new es\ucm\fdi\aw\forms\CartForm($_SESSION["user"]->getID(), $productID))->handleForm(); ?>
+                <?php endif ?>
             </div>
         </div>
         <div class="mt-5 py-2">
             <?= $product->getDescription() ?>
         </div>
-        
+
         <h2 id="reviews">Reseñas (<?= count($reviewsDTOResults) ?>)</h2>
-            <?php foreach ($reviewsDTOResults as $review): ?>
-                <div class="card m-1 ps-4 pt-2 pb-2">
-                    <?php $user = $userReviewDAO->getUserReviews($review->getID())[0] ?>
-                    <div class="row">
-                        Usuario: <?= $user->getName() ?> <?= $user->getSurname() ?>
-                    </div>
-                    <div class="row">
-                        Comentario: <?= $review->getComment() ?>
-                    </div>
-                    <div class="row">
-                        Valoración: <?= $review->getReview() ?>
-                    </div>
-                    <div class="row">
-                        Fecha: <?= $review->getDate() ?>
-                    </div>
+        <?php foreach ($reviewsDTOResults as $review) : ?>
+            <div class="card m-1 ps-4 pt-2 pb-2">
+                <?php $user = $userReviewDAO->getUserReviews($review->getID())[0] ?>
+                <div class="row">
+                    Usuario: <?= $user->getName() ?> <?= $user->getSurname() ?>
                 </div>
-            <?php endforeach ?>
-        </div>
-        <?= ($reviewForm = new es\ucm\fdi\aw\forms\ReviewForm($productID))->handleForm(); ?>
+                <div class="row">
+                    Comentario: <?= $review->getComment() ?>
+                </div>
+                <div class="row">
+                    Valoración: <?= $review->getReview() ?>
+                </div>
+                <div class="row">
+                    Fecha: <?= $review->getDate() ?>
+                </div>
+            </div>
+        <?php endforeach ?>
     </div>
+    <?= ($reviewForm = new es\ucm\fdi\aw\forms\ReviewForm($productID))->handleForm(); ?>
+</div>
 </div>
 <?php
 $content = ob_get_clean();
