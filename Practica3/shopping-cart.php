@@ -2,34 +2,39 @@
 
 use es\ucm\fdi\aw\DAO\ProductDAO;
 use es\ucm\fdi\aw\DAO\UsersProductsDAO;
-use es\ucm\fdi\aw\DAO\UserDAO;
 
 require_once 'includes/config.php';
-$title = 'Carrito';
 
-ob_start();
+$title = 'Carrito';
 
 $prodDAO = new ProductDAO;
 $usersDAO = new UsersProductsDAO;
+
 $productsPath = 'images/products/';
 $subtotal = 0;
 $userCart = array();
+
 if (isset($_SESSION["user"])) {
     $uID = $_SESSION["user"]->getID();
     $userCart = $usersDAO->getUserCart($uID);
-} else if (!empty($_SESSION["carritoTemporal"])) { //Hay que crear el carrito a corde al usuario sin registrar
+
+//Hay que crear el carrito acorde al usuario sin registrar
+} else if (!empty($_SESSION["carritoTemporal"])) {
     $uID = -1;
     $userCart = $_SESSION["carritoTemporal"];
 }
-if (count($userCart) == 0) { ?>
+
+ob_start();
+
+if (count($userCart) == 0): 
+?>
     <div class="container text-center shadow p-4">
         <div class="alert alert-danger justify-content-center align-center border" role="alert">
-            <b></b> Tu cesta de la compra esta vacía!!
+            <b>¡Tu cesta de la compra esta vacía!</b>
         </div>
     </div>
-<?php
-} else {
-?> <div class="container text-center shadow p-4">
+<?php else: ?>
+    <div class="container text-center shadow p-4">
         <h1 class="mb-4">Que hay en mi cesta?</h1>
         <div class="container text-center shadow p-4 d-flex justify-content-center align-items-center">
             <table style="width:100%">
@@ -68,7 +73,6 @@ if (count($userCart) == 0) { ?>
                                     <p class="mt-3" id="price-<?= $producto->getID() ?>"><?= $producto->getOfferPrice() * $prod->getAmount() ?></p>
                                 </td>
                                 <p id="price-unity-<?= $producto->getID() ?>" style="display:none"><?= $producto->getOfferPrice() ?></p>
-
                                 <td>
                                     <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#product-modal-<?= $producto->getID(); ?>">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
@@ -94,12 +98,10 @@ if (count($userCart) == 0) { ?>
                                         </div>
                                     </div>
                                 </td>
-
                             </tr>
                     <?php $val++;
                     endif;
                 endforeach; ?>
-
                         </tbody>
 
             </table>
@@ -131,13 +133,10 @@ if (count($userCart) == 0) { ?>
             document.getElementById('subtotal').textContent = subtotal.toFixed(2);
         }
     </script>
-<?php } ?>
+<?php endif; ?>
 
 <?php
-
-
 $content = ob_get_clean();
-
 
 require_once PROJECT_ROOT . '/includes/templates/default_template.php';
 ?>
