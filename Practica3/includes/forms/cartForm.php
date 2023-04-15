@@ -2,10 +2,16 @@
 
 namespace es\ucm\fdi\aw\forms;
 
+use es\ucm\fdi\aw\DAO\ProductDAO;
+use es\ucm\fdi\aw\DAO\UserDAO;
+use es\ucm\fdi\aw\DTO\UserDTO;
 use es\ucm\fdi\aw\DAO\UsersProductsDAO;
 use es\ucm\fdi\aw\DTO\UsersProductsDTO;
 
+
+
 require_once 'includes/config.php';
+
 
 class CartForm extends Form
 {
@@ -20,17 +26,68 @@ class CartForm extends Form
     {
         $this->userID = $userID;
         $this->productID = $productID;
-
-
+        
+    
         $redirectionURL = self::URL_REDIRECTION . '?productID=' . $productID;
-
+        
         parent::__construct(self::FORM_ID, array(parent::URL_REDIRECTION_KEY => $redirectionURL));
+        
     }
 
     //  Methods
     protected function processForm($data)
-    {
-
+    {   
+        echo "<pre>";
+        if($this->userID == null){
+            //Hay que añadir el usuario como guest y añadirle los productos a su carrito
+            $_SESSION["guest"] = "dragosMola";
+            
+            if (empty($_SESSION["carritoTemporal"])){
+                $_SESSION["carritoTemporal"] = array();
+                if ($data['amount'] > 0 && !empty($data['amount']))
+                    $_SESSION["carritoTemporal"][0] = new UsersProductsDTO( -1, $this->productID, $data['amount']);
+                
+            }else{
+                if ($data['amount'] > 0 && !empty($data['amount'])){
+                    $encontrado = false;
+                    $mi_array = $_SESSION["carritoTemporal"];
+                    foreach($mi_array as $prod){
+                        if ($prod->getID2() == $this->productID){
+                            $amount = $prod->getAmount() + $data['amount'];
+                            $prod->setAmount($amount);
+                            $encontrado=true;
+                            break;
+                        }
+                    }
+                    if ($encontrado==false){
+                        $index = count($mi_array);
+                        $mi_array[$index] = new UsersProductsDTO( -1, $this->productID, $data['amount']);
+                    }
+                    $_SESSION["carritoTemporal"] = $mi_array;
+                }
+            }
+        }else{
+            if (!isset($data['amount'])){
+                $this->m_Errors['empty_amount'] = 'Debes introducir una cantidad valida';
+                return;
+            }else if ($data['amount'] > 0 && !empty($data['amount'])){
+                echo('<pre>');
+                $cartDAO = new UsersProductsDAO();
+                $prodDTO = $cartDAO->getCartProduct($this->userID, $this->productID);
+                if ( $prodDTO->getAmount() != 0){ 
+                    $amount =  $prodDTO->getAmount() + $data['amount'];
+                    $prodDTO->setAmount($amount);
+                    $cartDAO->updateWithCompoundKey($prodDTO);
+                }else{
+                    $usersProductsDTO = new UsersProductsDTO( $this->userID, $this->productID, $data['amount']);
+                    $cartDAO->create($usersProductsDTO);
+                }
+            }else{
+                $this->m_Errors['empty_amount'] = 'Debes introducir una cantidad valida';
+                return;
+            }
+        }
+        
     }
 
     protected function generateFormFields($data)
@@ -46,7 +103,7 @@ class CartForm extends Form
                 HTML_ERROR;
             }
         }
-
+       
         return <<<HTML
             {$errorsHTML}
             <div class="form-floating py-3 d-flex">
@@ -57,5 +114,7 @@ class CartForm extends Form
                 <button class="btn btn-outline-primary ms-4" id="amount">Añadir al carrito</button>
             </div>
         HTML;
+        
     }
 }
+?>
