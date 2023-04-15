@@ -6,7 +6,6 @@ require_once 'includes/config.php';
 
 use es\ucm\fdi\aw\DTO\DTO;
 use es\ucm\fdi\aw\DTO\ProductDTO;
-use es\ucm\fdi\aw\DTO\ReviewsDTO;
 
 class ProductDAO extends DAO
 {

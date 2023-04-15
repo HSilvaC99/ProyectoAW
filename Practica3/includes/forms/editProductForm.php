@@ -10,7 +10,7 @@ require_once 'includes/config.php';
 class EditProductForm extends Form
 {
     //  Constants
-    private const FORM_ID = 'edit-product_form';
+    private const FORM_ID = 'editProduct_form';
     private const URL_REDIRECTION = 'products.php';
     private const ENCODE_TYPE = 'multipart/form-data';
 

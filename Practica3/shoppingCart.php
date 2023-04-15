@@ -92,7 +92,7 @@ if (count($userCart) == 0):
                                                 </div>
                                                 <div class="modal-footer">
                                                     <a class="btn btn-outline-dark" data-bs-dismiss="modal">Cancelar</a>
-                                                    <a class="btn btn-danger" href="shopping-cart.php?productID=<?= $producto->getID() ?>">Eliminar</a>
+                                                    <a class="btn btn-danger" href="shoppingCart.php?productID=<?= $producto->getID() ?>">Eliminar</a>
                                                 </div>
                                             </div>
                                         </div>

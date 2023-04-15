@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-04-2023 a las 14:32:28
+-- Tiempo de generación: 15-04-2023 a las 19:35:09
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -413,13 +413,6 @@ INSERT INTO `users_roles` (`userID`, `roleID`) VALUES
 (12, 2),
 (13, 2),
 (14, 2);
-
-
-CREATE TABLE `users_products` (
-  `userID` int(11) NOT NULL,
-  `productID` int(11) NOT NULL,
-  `amount` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Índices para tablas volcadas

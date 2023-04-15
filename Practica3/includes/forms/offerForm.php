@@ -59,7 +59,7 @@ class OfferForm extends Form
         return <<<HTML
         {$errorsHTML}
         <div class="form-floating">
-            <input type="number" min="0" class="" name="offer" style="width:50px; height:50px; ">
+            <input type="number" min="0" class="" name="offer" style="width:50px; height: auto; ">
             
             <div class="invalid-feedback">
                     Por favor, introduzca un descuento entre 0 y 100.

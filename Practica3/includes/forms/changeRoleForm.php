@@ -13,7 +13,7 @@ class ChangeRoleForm extends Form
 {
     //  Constants
     private const FORM_ID = 'change-role_form';
-    private const URL_REDIRECTION = 'admin-panel.php';
+    private const URL_REDIRECTION = 'adminPanel.php';
 
     //  Constructors
     public function __construct()

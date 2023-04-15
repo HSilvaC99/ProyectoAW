@@ -1,7 +1,7 @@
 <?php
 
 use es\ucm\fdi\aw\DAO\ProductDAO;
-use es\ucm\fdi\aw\DAO\ReviewsDAO;
+use es\ucm\fdi\aw\DAO\ReviewDAO;
 use es\ucm\fdi\aw\DAO\UserReviewDAO;
 use es\ucm\fdi\aw\DAO\UserDAO;
 use es\ucm\fdi\aw\DAO\UsersProductsDAO;
@@ -27,12 +27,9 @@ $role = "guest";
 if (isset($_SESSION["user"]))
     $role = $user->getUserRoles($_SESSION["user"]->getID())[0]->getRoleName();
 
-//User Intermediate
-$userReviewDAO = new UserReviewDAO;
-
 //Reviews
-$reviewsDAO = new ReviewsDAO;
-$reviewsDTOResults = $reviewsDAO->read();
+$reviewDAO = new ReviewDAO;
+$reviewsDTOResults = $reviewDAO->getProductReviews($productID);
 
 if (isset($_GET["offer"])) {
     if ($_GET["offer"] < 0 || $_GET["offer"] > 100) {
@@ -117,8 +114,7 @@ $error
                 <?php endif ?>
             </div>
             <div class="buttons py-3">
-                <!-- AQUI HAY QUE HACER OTRO FORM PARA EL BOTON DE COMPRAR -->
-                <button class="btn btn-primary " id="buy-now">Buy Now</button>
+                <button class="btn btn-primary " id="buy-now">Comprar ya</button>
                 <?php if (!isset($_SESSION["user"])) : ?>
                     <?= ($cartForm = new es\ucm\fdi\aw\forms\CartForm(null, $productID))->handleForm(); ?>
                 <?php else : ?>
@@ -128,12 +124,13 @@ $error
         </div>
         <div class="mt-5 py-2">
             <?= $product->getDescription() ?>
+            <hr class="mt-4">
         </div>
 
         <h2 id="reviews">Reseñas (<?= count($reviewsDTOResults) ?>)</h2>
         <?php foreach ($reviewsDTOResults as $review) : ?>
             <div class="card m-1 ps-4 pt-2 pb-2">
-                <?php $user = $userReviewDAO->getUserReviews($review->getID())[0] ?>
+                <?php $user = $reviewDAO->getReviewAuthor($productID, $review->getID())[0] ?>
                 <div class="row">
                     Usuario: <?= $user->getName() ?> <?= $user->getSurname() ?>
                 </div>

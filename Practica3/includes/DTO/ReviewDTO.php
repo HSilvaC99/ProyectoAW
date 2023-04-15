@@ -4,7 +4,7 @@ namespace es\ucm\fdi\aw\DTO;
 
 require_once 'includes/config.php';
 
-class ReviewsDTO extends DTO
+class ReviewDTO extends DTO
 {
     private $m_ID;
     private $m_Comment;

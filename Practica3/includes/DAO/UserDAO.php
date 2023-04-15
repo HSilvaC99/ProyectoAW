@@ -6,7 +6,6 @@ require_once 'includes/config.php';
 
 use es\ucm\fdi\aw\DTO\DTO;
 use es\ucm\fdi\aw\DTO\UserDTO;
-use es\ucm\fdi\aw\DTO\ReviewsDTO;
 
 class UserDAO extends DAO
 {
@@ -35,7 +34,7 @@ class UserDAO extends DAO
         $statement->execute();
 
         $results = array();
-        $roleDAO = new RoleDAO();
+        $roleDAO = new RoleDAO;
 
         foreach ($statement as $result) {
             array_push($results, $roleDAO->createDTOFromArray($result));

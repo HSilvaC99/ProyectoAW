@@ -2,9 +2,9 @@
 
 namespace es\ucm\fdi\aw\forms;
 
-use es\ucm\fdi\aw\DTO\ReviewsDTO;
+use es\ucm\fdi\aw\DTO\ReviewDTO;
 use es\ucm\fdi\aw\DTO\UserReviewDTO;
-use es\ucm\fdi\aw\DAO\ReviewsDAO;
+use es\ucm\fdi\aw\DAO\ReviewDAO;
 use es\ucm\fdi\aw\DAO\UserReviewDAO;
 
 require_once 'includes/config.php';
@@ -39,8 +39,8 @@ class ReviewForm extends Form
             $review = $_POST['review'];
             $date = date('Y-m-d H:i:s', strtotime("now"));
 
-            $reviewDAO = new ReviewsDAO;
-            $reviewDAO->create(new ReviewsDTO(-1, $comment, $review, $date));
+            $reviewDAO = new ReviewDAO;
+            $reviewDAO->create(new ReviewDTO(-1, $comment, $review, $date));
             $reviewDTO = $reviewDAO->read(null, ["date" => $date])[0];
             $reviewID = $reviewDTO->getID();
 

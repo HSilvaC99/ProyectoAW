@@ -19,25 +19,6 @@ class UserReviewDAO extends DAO
         parent::__construct(self::TABLE_NAME);
     }
 
-    public function getUserReviews($reviewID): array
-    {
-        $query = "SELECT u.* FROM users u INNER JOIN product_user_reviews pur ON pur.user_id = u.id WHERE pur.review_id = :reviewID";
-
-        $statement = $this->m_DatabaseProxy->prepare($query);
-        $statement->bindParam(':reviewID', $reviewID);
-        $statement->execute();
-
-        $results = array();
-        $userDAO = new UserDAO();
-
-        foreach ($statement as $result) {
-            array_push($results, $userDAO->createDTOFromArray($result));
-        }
-
-        return $results;
-
-    }
-
     protected function createDTOFromArray($array): DTO
     {
         $userID = $array[self::USERID_KEY];

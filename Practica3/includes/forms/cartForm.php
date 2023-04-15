@@ -103,7 +103,7 @@ class CartForm extends Form
                 HTML_ERROR;
             }
         }
-       
+        
         return <<<HTML
             {$errorsHTML}
             <div class="form-floating py-3 d-flex">

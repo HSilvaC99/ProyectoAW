@@ -16,8 +16,8 @@ require_once 'includes/config.php';
 class ModifyCartForm extends Form
 {
     //  Constants
-    private const FORM_ID = 'modify_cart_form';
-    private const URL_REDIRECTION = 'shopping-cart.php';
+    private const FORM_ID = 'modifyCart_form';
+    private const URL_REDIRECTION = 'shoppingCart.php';
     private $productID;
     private $userID;
     private $amount;
