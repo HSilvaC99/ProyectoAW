@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-04-2023 a las 01:29:28
+-- Tiempo de generación: 15-04-2023 a las 14:32:28
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -103,10 +103,6 @@ INSERT INTO `event_roles` (`id`, `name`, `maximum`) VALUES
 (1, 'Fusilero', 45),
 (2, 'Tirador selecto', 4),
 (3, 'Apoyo', 4),
-(4, 'Francotirador', 4),
-(1, 'Fusilero', 45),
-(2, 'Tirador selecto', 4),
-(3, 'Apoyo', 4),
 (4, 'Francotirador', 4);
 
 -- --------------------------------------------------------
@@ -131,8 +127,8 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `number`, `state`, `date`, `amount`, `quantity`, `paymentMethod`, `address`) VALUES
-(0, 0, 'cancelado', '2023-04-13', 668, 1, 'Tarjeta Credito', ''),
-(1, 12, 'En proceso', '2023-04-10', 123, 1, 'Visa', 'Calle Magdalena');
+(0, 0, 'cancelado', '2023-04-13', '668.00', 1, 'Tarjeta Credito', ''),
+(1, 12, 'En proceso', '2023-04-10', '123.00', 1, 'Visa', 'Calle Magdalena');
 
 -- --------------------------------------------------------
 
@@ -353,18 +349,24 @@ CREATE TABLE `users_orders` (
   `orderID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE `users_products` (
-  `userID` int(11) NOT NULL,
-  `productID` int(11) NOT NULL,
-  `amount` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 --
 -- Volcado de datos para la tabla `users_orders`
 --
 
 INSERT INTO `users_orders` (`userID`, `orderID`) VALUES
 (12, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `users_products`
+--
+
+CREATE TABLE `users_products` (
+  `userID` int(11) NOT NULL,
+  `productID` int(11) NOT NULL,
+  `amount` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -382,8 +384,6 @@ CREATE TABLE `users_questions` (
 --
 
 INSERT INTO `users_questions` (`userID`, `questionID`) VALUES
-(12, 94),
-(14, 97),
 (12, 94),
 (14, 97),
 (12, 101),
@@ -406,13 +406,13 @@ CREATE TABLE `users_roles` (
 
 INSERT INTO `users_roles` (`userID`, `roleID`) VALUES
 (6, 1),
-(13, 1),
 (12, 1),
+(13, 1),
 (14, 1),
 (6, 2),
 (12, 2),
 (13, 2),
-(14,2);
+(14, 2);
 
 --
 -- Índices para tablas volcadas
@@ -434,6 +434,20 @@ ALTER TABLE `categories`
 -- Indices de la tabla `events`
 --
 ALTER TABLE `events`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `events_users`
+--
+ALTER TABLE `events_users`
+  ADD KEY `eventID` (`eventID`),
+  ADD KEY `eventRoleID` (`eventRoleID`),
+  ADD KEY `userID` (`userID`);
+
+--
+-- Indices de la tabla `event_roles`
+--
+ALTER TABLE `event_roles`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -513,20 +527,19 @@ ALTER TABLE `users_answers`
   ADD KEY `answerID` (`answerID`);
 
 --
--- Indices de la tabla `users_products`
---
-
-ALTER TABLE `users_products`
-  ADD PRIMARY KEY (`userID`,`productID`),
-  ADD KEY `productID` (`productID`);
-
---
 -- Indices de la tabla `users_orders`
 --
 ALTER TABLE `users_orders`
   ADD PRIMARY KEY (`userID`) USING BTREE,
   ADD KEY `userID` (`userID`) USING BTREE,
   ADD KEY `orderID` (`orderID`);
+
+--
+-- Indices de la tabla `users_products`
+--
+ALTER TABLE `users_products`
+  ADD PRIMARY KEY (`userID`,`productID`),
+  ADD KEY `productID` (`productID`);
 
 --
 -- Indices de la tabla `users_questions`
@@ -545,12 +558,6 @@ ALTER TABLE `users_roles`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
-
---
--- AUTO_INCREMENT de la tabla `answers`
---
-ALTER TABLE `answers`
-  MODIFY `id` int(11) NOT NULL;
 
 --
 -- AUTO_INCREMENT de la tabla `categories`
@@ -611,6 +618,14 @@ ALTER TABLE `users`
 --
 
 --
+-- Filtros para la tabla `events_users`
+--
+ALTER TABLE `events_users`
+  ADD CONSTRAINT `events_users_ibfk_1` FOREIGN KEY (`eventID`) REFERENCES `events` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `events_users_ibfk_2` FOREIGN KEY (`eventRoleID`) REFERENCES `event_roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `events_users_ibfk_3` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Filtros para la tabla `product_user_reviews`
 --
 ALTER TABLE `product_user_reviews`
@@ -624,18 +639,14 @@ ALTER TABLE `product_user_reviews`
 ALTER TABLE `users_orders`
   ADD CONSTRAINT `users_orders_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `users_orders_ibfk_2` FOREIGN KEY (`orderID`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
 
-ALTER TABLE `events_users`
-  ADD CONSTRAINT `events_users_ibfk_1` FOREIGN KEY (`eventID`) REFERENCES `events` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `events_users_ibfk_2` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `events_users_ibfk_3` FOREIGN KEY (`eventRoleID`) REFERENCES `event_roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-
+--
+-- Filtros para la tabla `users_products`
+--
 ALTER TABLE `users_products`
   ADD CONSTRAINT `users_products_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `users_products_ibfk_2` FOREIGN KEY (`productID`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
