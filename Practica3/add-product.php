@@ -1,7 +1,5 @@
 <?php
 
-use es\ucm\fdi\aw\DAO\ProductDAO;
-
 require_once 'includes/config.php';
 
 $title = 'Añadir producto';

@@ -2,6 +2,7 @@
 
 use es\ucm\fdi\aw\DAO\AnswerDAO;
 use es\ucm\fdi\aw\DAO\QuestionDAO;
+use es\ucm\fdi\aw\DAO\UserAnswerDAO;
 use es\ucm\fdi\aw\DAO\UserQuestionDAO;
 
 require_once 'includes/config.php';
@@ -16,11 +17,9 @@ $questionAuthors = $userQuestionDAO->read();
 
 $isDisabled = !isset($_SESSION["user"]) ? " disabled" : "";
 $answerDAO = new AnswerDAO;
-$numAnswers = count($answerDAO->read());
 
 if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['questionID']) && !empty($_GET['questionID'])) {
 
-    $answerDAO = new AnswerDAO;
     $answersToDelete = $answerDAO->getQuestionAnswers($_GET['questionID']);
 
     $questionDAO->delete($_GET['questionID']);
@@ -47,7 +46,6 @@ ob_start();
             </fieldset>
         <?php else : ?>
             <div class="col-10 mb-3">
-                <div class="row text-left mb-5"></div>
                 <?php foreach ($questions as $question) : ?>
                     <div class="card row-hover pos-relative py-3 px-3 mb-3 border-primary border-top-0 border-bottom-0 rounded-0 shadow">
                         <div class="row d-flex align-items-center">
@@ -60,7 +58,8 @@ ob_start();
                                     <p class="text-sm"><span class="op-6">Publicado el <b><?= $question->getCreationDate() ?></b> por <b><?= $questionAuthor ?></b></span></p>
                                 </div>
                                 <div class="col d-flex justify-content-end">
-                                    <i>(<?= $numAnswers; ?><?php $numAnswers == 1 ? print(" respuesta") : print(" respuestas") ?>)</i
+                                    <?php $numAnswers = count($answerDAO->getQuestionAnswers($question->getID())); ?>
+                                    <i>(<?= $numAnswers; ?><?php $numAnswers == 1 ? print(" respuesta") : print(" respuestas") ?>)</i>
                                 </div>
                             </div>
                             <?php if ((isset($_SESSION["user"]) && $_SESSION["user"]->getID() == $questionDAO->getQuestionAuthor($question->getID())[0]->getID()) || (isset($_SESSION["isAdmin"]) && $_SESSION['isAdmin'] == true)) : ?>
@@ -94,13 +93,13 @@ ob_start();
                     </div>
                 <?php endforeach ?>
             </div>
-            <fieldset class="col-2 mt-5" <?= $isDisabled ?>>
+            <div class="col-2 mt-3" <?= $isDisabled ?>>
                 <div class="row d-flex justify-content-center">
-                    <a class="btn btn-primary w-100 m-3" href="ask-question.php" role="button">
+                    <a class="btn btn-primary w-100 m-3" href="add-question.php" role="button">
                         <p class="pt-3"><?= !isset($_SESSION["user"]) ? "Identifícate para<br>escribir en el foro" : "Haz una<br>pregunta" ?></p>
                     </a>
                 </div>
-            </fieldset>
+            </div>
         <?php endif ?>
     </div>
 </div>

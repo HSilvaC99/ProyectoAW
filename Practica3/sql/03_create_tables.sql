@@ -684,6 +684,13 @@ INSERT INTO `users_roles` (`userID`, `roleID`) VALUES
 (12, 2),
 (13, 2);
 
+
+CREATE TABLE `users_products` (
+  `userID` int(11) NOT NULL,
+  `productID` int(11) NOT NULL,
+  `amount` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Índices para tablas volcadas
 --

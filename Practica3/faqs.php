@@ -1,9 +1,9 @@
 
 
-<?php 
-require_once __DIR__ . '/includes/config.php'; 
+<?php
+require_once __DIR__ . '/includes/config.php';
 
-$title = 'FAQs'; 
+$title = 'FAQs';
 
 $content = <<<EOS
     <h1 class="mb-3 d-flex justify-content-center">PREGUNTAS FRECUENTES</h1><br>
@@ -20,9 +20,9 @@ $content = <<<EOS
                 <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <p>Realizamos envíos a toda la península ibérica incluyendo las islas. Las provincias son las siguientes: Álava, Albacete, Alicante, Almería, Asturias, 
-                             Ávila, Badajoz, Barcelona, Burgos, Cáceres, Cádiz, Cantabria, Castellón, Ciudad Real, Córdoba, Cuenca, Gerona, Granada, Guadalajara, Guipúzcoa, Huelva, 
-                             Huesca, Islas Baleares, Jaén, La Coruña, La Rioja, Las Palmas, León, Lérida, Lugo, Madrid, Málaga, Murcia, Navarra, Orense, Palencia, Pontevedra, 
-                             Salamanca, Santa Cruz de Tenerife, Segovia, Sevilla, Soria, Tarragona, Teruel, Toledo, Valencia, Valladolid, Vizcaya, Zamora y Zaragoza. <br></p>
+                            Ávila, Badajoz, Barcelona, Burgos, Cáceres, Cádiz, Cantabria, Castellón, Ciudad Real, Córdoba, Cuenca, Gerona, Granada, Guadalajara, Guipúzcoa, Huelva, 
+                            Huesca, Islas Baleares, Jaén, La Coruña, La Rioja, Las Palmas, León, Lérida, Lugo, Madrid, Málaga, Murcia, Navarra, Orense, Palencia, Pontevedra, 
+                            Salamanca, Santa Cruz de Tenerife, Segovia, Sevilla, Soria, Tarragona, Teruel, Toledo, Valencia, Valladolid, Vizcaya, Zamora y Zaragoza. <br></p>
                     </div>
                 </div>
             </div>
@@ -51,15 +51,15 @@ $content = <<<EOS
                 <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <p>Los artículos solicitados se enviarán el mismo día de completar el pedido en nuestra página web si es realizado antes de las 14:00h y siempre y cuando todos 
-                         los artículos de dicho pedido se encuentren en stock, y serán recibidos en 24-48h. <br> <br>
+                        los artículos de dicho pedido se encuentren en stock, y serán recibidos en 24-48h. <br> <br>
 
                         En caso de los artículos bajo pedido se indica en los mismos el tiempo estimado de llegada a nuestras instalaciones en días laborables, pudiendo variar este plazo 
-                         al no depender de nosotros la rapidez y eficacia de empresas externas; debe tenerse en cuenta que en este caso ofrecemos un producto que tenemos que recibir y para 
-                          lo cual dependemos que muchas otras empresas hagan correctamente su parte del trabajo, con lo que es posible que suceda una demora algo distinta a la indicada. Una 
-                           vez recibimos el/los artículos en nuestras instalaciones, se procesa como un pedido en stock y será recibido en las siguientes 24-48h. <br> <br>
+                        al no depender de nosotros la rapidez y eficacia de empresas externas; debe tenerse en cuenta que en este caso ofrecemos un producto que tenemos que recibir y para 
+                        lo cual dependemos que muchas otras empresas hagan correctamente su parte del trabajo, con lo que es posible que suceda una demora algo distinta a la indicada. Una 
+                        vez recibimos el/los artículos en nuestras instalaciones, se procesa como un pedido en stock y será recibido en las siguientes 24-48h. <br> <br>
 
                         Tiene que tener en cuenta para este plazo los días laborables, que son de lunes a viernes. Igual consideración deberá de tener en cuenta en el caso de días festivos 
-                         tanto nacionales como locales. <br> <br>
+                        tanto nacionales como locales. <br> <br>
 
                         Los pedidos que contengan artículos bajo pedido serán enviados una vez sean recibidos en nuestras instalaciones todos los productos contenidos en el mismo.<br></p>
                     </div>
@@ -74,7 +74,7 @@ $content = <<<EOS
                 <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <p>Si, puedes ponerte en contacto con nuestro teléfono de atención al cliente y comunicarnos la modificación, siempre y cuando el pedido aún no 
-                         haya sido enviado.<br></p>
+                        haya sido enviado.<br></p>
                     </div>
                 </div>
             </div>
@@ -87,8 +87,8 @@ $content = <<<EOS
                 <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <p>Si has realizado el pedido desde una cuenta de cliente, dentro de tu cuenta en la ventana “mis pedidos” puedes ver el estado del pedido, así como el 
-                         seguimiento de este. Si el pedido ha sido realizado como invitado, no podrás ver el estado del pedido, excepto en las comunicaciones que se realizan por 
-                          e-mail cuando modificamos dicho estado.<br></p>
+                        seguimiento de este. Si el pedido ha sido realizado como invitado, no podrás ver el estado del pedido, excepto en las comunicaciones que se realizan por 
+                        e-mail cuando modificamos dicho estado.<br></p>
                     </div>
                 </div>
             </div>
@@ -104,7 +104,7 @@ $content = <<<EOS
                     </div>
                 </div>
             </div>
-           
+            
 
         <h3> 2. PAGOS Y PRECIOS</h3>
             <div class="accordion-item">
@@ -120,21 +120,21 @@ $content = <<<EOS
                             -Pago a contrarrembolso: el Usuario pagará el importe del pedido al mensajero en el momento de la entrega de los artículos. <br><br>
 
                             -Ingreso bancario: el Usuario ingresará el importe del pedido en la cuenta corriente directamente en ventanilla del banco. Puede avisar telefónicamente 
-                             o por email de dicho ingreso para acelerar la tramitación de su pedido. Debe de indicar su nombre en el ingreso para identificar el pago o bien enviarnos
-                              por email copia del justificante bancario para asociar dicho pago con su pedido. <br><br>
+                            o por email de dicho ingreso para acelerar la tramitación de su pedido. Debe de indicar su nombre en el ingreso para identificar el pago o bien enviarnos
+                            por email copia del justificante bancario para asociar dicho pago con su pedido. <br><br>
 
                             -Transferencia bancaria: el Usuario realizará transferencia bancaria por el importe del pedido a la cuenta del banco. Puede avisar por email adjuntando 
-                             copia de la transferencia para acelerar la tramitación de su pedido. Debe indicarnos su nombre en la transferencia para identificar el pago. 
+                            copia de la transferencia para acelerar la tramitación de su pedido. Debe indicarnos su nombre en la transferencia para identificar el pago. 
 
                             -Pago a través de Tarjeta de Crédito: el Usuario pagará el importe del pedido a través del enlace con el TPV Virtual del banco que se creará 
                             automáticamente al realizar el pedido y elegir esta opción. En esta forma de pago se recibe la confirmación del banco que se ha realizado el pago, 
                             el resto de datos como numeración de tarjetas, etc. son comunicados por el Usuario únicamente al banco. Utiliza también, dependiendo de la tarjeta, 
                             la tecnología de CES (Comercio Electrónico Seguro) que necesita de un código de confirmación que recibe vía SMS, y que al realizar la compra, si no
-                             se ha dado de alta previamente, la entidad de la tarjeta guiará en los pasos para que pueda darse de alta en el mismo momento. <br> <br>
+                            se ha dado de alta previamente, la entidad de la tarjeta guiará en los pasos para que pueda darse de alta en el mismo momento. <br> <br>
 
                             -Pago a través de PayPal: el Usuario pagará el importe del pedido a través del enlace con PayPal que se creará automáticamente al realizar el 
                             pedido y elegir esta opción. En esta forma de pago se recibe la confirmación de PayPal que se ha realizado el pago, el resto de datos como numeración
-                             de tarjetas, etc. son comunicados por el Usuario únicamente a PayPal.<br></p>
+                            de tarjetas, etc. son comunicados por el Usuario únicamente a PayPal.<br></p>
                         </div>
                     </div>
                 </div>
@@ -147,9 +147,9 @@ $content = <<<EOS
                 <div id="collapse8" class="accordion-collapse collapse" aria-labelledby="heading8" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <p>No, siempre y cuando el pedido no se haya realizado con método de pago contrarrembolso. <br> <br>
-                         En los pedidos cuyo destino tenga aduanas, es posible que estas le añadan algún gasto extra dependiendo del importe.
-                          Este gasto es responsabilidad del cliente, y en ningún caso podemos conocer nosotros de antemano si se aplicará o cuál será el importe.
-                           Esto depende completamente de la Administración de Aduanas y son ellos quienes cobran este suplemento, no nosotros. <br></p>
+                        En los pedidos cuyo destino tenga aduanas, es posible que estas le añadan algún gasto extra dependiendo del importe.
+                        Este gasto es responsabilidad del cliente, y en ningún caso podemos conocer nosotros de antemano si se aplicará o cuál será el importe.
+                        Esto depende completamente de la Administración de Aduanas y son ellos quienes cobran este suplemento, no nosotros. <br></p>
                         </div>
                     </div>
                 </div>
@@ -307,10 +307,10 @@ $content = <<<EOS
                     <div class="accordion-body">
                         <p>Ponte en contacto con nosotros por WhatsApp al 655834662 indicándonos la referencia y nombre de pedido, el problema que has tenido y vídeos/fotos de 
                             dicho problema. Una vez hecho esto, nuestro técnico revisará el caso en un plazo máximo de 5 días laborables y, si dicho problema está contemplado en
-                             la garantía, te indicaremos los pasos a seguir para tramitarla. <br><br>
+                            la garantía, te indicaremos los pasos a seguir para tramitarla. <br><br>
 
                         Importante: Si el artículo una vez recibido queda excluido de garantía por un defecto o rotura no contemplado anteriormente, el cliente deberá abonar los
-                         gastos de envío que suponga la tramitación y, en caso de desear la reparación, abonar los costes de la misma (mano de obra y materiales).<br></p>
+                        gastos de envío que suponga la tramitación y, en caso de desear la reparación, abonar los costes de la misma (mano de obra y materiales).<br></p>
                         </div>
                     </div>
                 </div> 
@@ -324,7 +324,7 @@ $content = <<<EOS
                     <div class="accordion-body">
                         <p>El tiempo de reparación o sustitución de un artículo que ha sido enviado a nuestro servicio técnico y aceptado en garantía puede variar, 
                             pudiendo ser de 2 a 15 días laborables. Este tiempo puede verse afectado si fuera necesario el envío del artículo a las instalaciones del
-                             servicio técnico oficial de la marca.<br></p>
+                            servicio técnico oficial de la marca.<br></p>
                         </div>
                     </div>
                 </div> 
@@ -340,8 +340,8 @@ $content = <<<EOS
                             posterior tramitación al servicio técnico sin suponer ningún tipo de gasto para el cliente (para artículos que se encuentren en España peninsular o 
                             Portugal, no aplica fuera de dicho territorio), siempre y cuando dicha tramitación se lleve a cabo dentro de los primeros 60 días tras la recepción del 
                             artículo; para todas las tramitaciones a garantía que se lleven a cabo tras dicho plazo, el envío hacia nuestras instalaciones correrá a cargo del cliente.
-                             Una vez recibido este artículo nuestra empresa se hará cargo de todos los gastos asociados a la reparación, trámites con el fabricante y gastos de envío
-                              de vuelta hacia el cliente una vez realizada la reparación o sustitución del artículo.<br></p>
+                            Una vez recibido este artículo nuestra empresa se hará cargo de todos los gastos asociados a la reparación, trámites con el fabricante y gastos de envío
+                            de vuelta hacia el cliente una vez realizada la reparación o sustitución del artículo.<br></p>
                         </div>
                     </div>
                 </div> 
@@ -370,7 +370,7 @@ $content = <<<EOS
                     <div id="collapse22" class="accordion-collapse collapse" aria-labelledby="heading22" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                             <p>Realizar una compra online en nuestra página web es totalmente seguro, ya que contamos con métodos de pago con garantía antifraude, para
-                                 garantizar a nuestros clientes el mejor servicio y tranquilidad a la hora de realizar el pago.<br></p>
+                            garantizar a nuestros clientes el mejor servicio y tranquilidad a la hora de realizar el pago.<br></p>
                         </div>
                     </div>
                 </div>
@@ -388,6 +388,6 @@ $content = <<<EOS
                 </div>
         </div>            
     </div>
-EOS; 
+EOS;
 
 require_once INCLUDES_ROOT . '/templates/default_template.php';

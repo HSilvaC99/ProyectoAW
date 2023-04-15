@@ -1,7 +1,5 @@
 <?php
 
-
-
 use es\ucm\fdi\aw\DAO\UsersProductsDAO;
 use es\ucm\fdi\aw\DAO\ProductDAO;
 
