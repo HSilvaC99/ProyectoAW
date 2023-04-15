@@ -134,7 +134,7 @@ class RegisterForm extends Form
         <div class="form-check col-md-9">
             <input type="checkbox" class="form-check-input" id="same-address" required>
             <label class="form-check-label" for="same-address">Marque esta casilla para verificar que ha leído nuestros <a
-                href="info.php#politica">política de privacidad</a> y los <a href="info.php#condiciones">términos y condiciones</a> del servicio.</label>
+                href="information.php#politica">política de privacidad</a> y los <a href="information.php#condiciones">términos y condiciones</a> del servicio.</label>
         </div>
         </div>
 
