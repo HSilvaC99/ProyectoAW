@@ -2,11 +2,10 @@
 
 namespace es\ucm\fdi\aw\DAO;
 
-require_once 'includes/config.php';
+require_once dirname(__DIR__).'/config.php';
 
 use es\ucm\fdi\aw\Application;
 use es\ucm\fdi\aw\DTO\DTO;
-use PDO;
 
 //  Note: possible SQL injection when using parameters. Investigate
 abstract class DAO
@@ -123,6 +122,6 @@ abstract class DAO
         return $statement->execute();
     }
 
-    protected abstract function createDTOFromArray($array): DTO;
-    protected abstract function createArrayFromDTO($DTO): array;
+    public abstract function createDTOFromArray($array): DTO;
+    public abstract function createArrayFromDTO($DTO): array;
 }

@@ -71,7 +71,7 @@ class AnswerDAO extends DAO
         return $results;
     }
 
-    protected function createDTOFromArray($array): DTO
+    public function createDTOFromArray($array): DTO
     {
         $id = $array[self::ID_KEY];
         $message = $array[self::MESSAGE_KEY];
@@ -80,7 +80,7 @@ class AnswerDAO extends DAO
         return new AnswerDTO($id, $message, $creationDate);
     }
 
-    protected function createArrayFromDTO($dto): array
+    public function createArrayFromDTO($dto): array
     {
         $dtoArray = array(
             self::MESSAGE_KEY => $dto->getMessage()

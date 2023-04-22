@@ -19,7 +19,7 @@ class UserReviewDAO extends DAO
         parent::__construct(self::TABLE_NAME);
     }
 
-    protected function createDTOFromArray($array): DTO
+    public function createDTOFromArray($array): DTO
     {
         $userID = $array[self::USERID_KEY];
         $productID = $array[self::PRODUCTID_KEY];
@@ -28,7 +28,7 @@ class UserReviewDAO extends DAO
         return new UserReviewDTO($userID, $productID, $reviewID);
     }
     
-    protected function createArrayFromDTO($dto): array
+    public function createArrayFromDTO($dto): array
     {
         return array(
             self::REVIEWID_KEY => $dto->getReviewID(),

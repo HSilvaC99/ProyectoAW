@@ -2,7 +2,7 @@
 
 namespace es\ucm\fdi\aw\DAO;
 
-require_once 'includes/config.php';
+require_once dirname(__DIR__).'/config.php';
 
 use es\ucm\fdi\aw\DTO\DTO;
 use es\ucm\fdi\aw\DTO\ProductDTO;
@@ -26,7 +26,7 @@ class ProductDAO extends DAO
 
     //  Methods
 
-    protected function createDTOFromArray($array): DTO
+    public function createDTOFromArray($array): DTO
     {
         $id = $array[self::ID_KEY];
         $name = $array[self::NAME_KEY];
@@ -36,7 +36,7 @@ class ProductDAO extends DAO
         $offer = $array[self::OFFER_KEY];
         return new ProductDTO($id, $name, $description, $imgName, $price, $offer);
     }
-    protected function createArrayFromDTO($dto): array
+    public function createArrayFromDTO($dto): array
     {
         $dtoArray = array(
             self::ID_KEY => $dto->getID(),

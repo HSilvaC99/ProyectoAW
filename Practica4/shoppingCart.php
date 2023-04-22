@@ -21,15 +21,13 @@ if (isset($_SESSION["user"])) {
   $uID = -1;
   $my_array = $_SESSION["carritoTemporal"];
 }
-if (count($my_array) == 0) { ?>
+if (count($my_array) == 0): ?>
   <div class="container text-center shadow p-4">
     <div class="alert alert-danger justify-content-center align-center border" role="alert">
       <b></b> Tu cesta de la compra esta vacía!!
     </div>
   </div>
-<?php
-} else {
-?> <div class="container text-center shadow p-4">
+<?php else: ?> <div class="container text-center shadow p-4">
     <h1 class="mb-4">Que hay en mi cesta?</h1>
     <div class="container text-center shadow p-4 d-flex justify-content-center align-items-center">
       <table style="width:100%">
@@ -92,38 +90,12 @@ if (count($my_array) == 0) { ?>
 
     </div>
   </div>
-  <script>
-    function actualizarTabla(productID) {
-      // Obtener la cantidad de productos del input
-      const cantidad = parseInt(document.getElementById('amount-${productID}').value);
-      console.log(cantidad)
-      // Calcular el nuevo precio para el producto
-      const PxU = parseFloat(document.getElementById('price-unity-${productID}').textContent);
-      console.log(PxU)
-      const nuevoPrecio = cantidad * PxU;
-      console.log(nuevoPrecio)
+  
+  <script defer src="js/updateCart.js"></script>
 
-      // Actualizar el texto dentro del <td> que contiene el precio
-      document.getElementById('price-${productID}').textContent = nuevoPrecio.toFixed(2);
-
-      // Calcular el subtotal de la tabla sumando los precios de todos los productos
-      let subtotal = 0;
-      document.querySelectorAll('table tbody tr').forEach(row => {
-        const precioPorUnidad = parseFloat(row.querySelector('td:nth-child(5) p').textContent);
-        subtotal += precioPorUnidad;
-      });
-      console.log(subtotal)
-      // Actualizar el texto dentro del <p> que contiene el subtotal
-      document.getElementById('subtotal').textContent = subtotal.toFixed(2);
-    }
-  </script>
-<?php } ?>
-
-<?php
-
+<?php endif;
 
 $content = ob_get_clean();
-
 
 require_once PROJECT_ROOT . '/includes/templates/default_template.php';
 ?>

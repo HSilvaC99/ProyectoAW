@@ -27,7 +27,7 @@ class OrderDAO extends DAO
 
     //  Methods
     
-    protected function createDTOFromArray($array): DTO
+    public function createDTOFromArray($array): DTO
     {
         $id = $array[self::ID_KEY];
         $state = $array[self::STATE_KEY];
@@ -39,7 +39,7 @@ class OrderDAO extends DAO
 
         return new OrderDTO($id,  $state, $date, $amount, $quantity, $payment, $address);
     }
-    protected function createArrayFromDTO($dto): array
+    public function createArrayFromDTO($dto): array
     {
         $dtoArray = array(
             self::STATE_KEY => $dto->getState(),

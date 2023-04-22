@@ -100,7 +100,7 @@ class EventDAO extends DAO
         return count($results) != 0;
     }
 
-    protected function createDTOFromArray($array): DTO
+    public function createDTOFromArray($array): DTO
     {
         $id = $array[self::ID_KEY] ?? -1;
         $name = $array[self::NAME_KEY];
@@ -109,7 +109,7 @@ class EventDAO extends DAO
 
         return new EventDTO($id, $name, $description, $date);
     }
-    protected function createArrayFromDTO($dto): array
+    public function createArrayFromDTO($dto): array
     {
         $dtoArray = array(
             self::NAME_KEY => $dto->getName(),

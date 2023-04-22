@@ -90,7 +90,7 @@ class UserProductDAO extends DAO
         return $statement->execute();
     }
 
-    protected function createDTOFromArray($array): DTO
+    public function createDTOFromArray($array): DTO
     {
         
         $userID = $array[self::USER_ID_KEY];
@@ -101,7 +101,7 @@ class UserProductDAO extends DAO
         return new UserProductDTO($userID, $productID,$amount);
     }
     
-    protected function createArrayFromDTO($dto): array
+    public function createArrayFromDTO($dto): array
     {
         $dtoArray = array(
             self::USER_ID_KEY => $dto->getID1(),
