@@ -1,6 +1,6 @@
 'use strict'
 
-const keypressWaitMilliseconds = 500;
+const keypressWaitMilliseconds = 150;
 let timer = null;
 let searchbar = null;
 

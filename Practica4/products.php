@@ -23,7 +23,7 @@ ob_start();
     <div class="my-4">
         <div class="input-group">
             <legend>Buscar producto</legend>
-            <input type="search" id="product-searchbar" class="form-control rounded" placeholder="Buscar" aria-label="Search" aria-describedby="search-addon"/>
+            <input type="search" id="product-searchbar" class="form-control rounded" placeholder="Buscar" aria-label="Search" aria-describedby="search-addon" />
             <button type="button" class="btn btn-outline-primary">
                 <i class="fas fa-search"></i>
             </button>

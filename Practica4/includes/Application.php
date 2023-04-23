@@ -29,16 +29,12 @@ class Application
         return self::$s_Instance;
     }
 
-    public function readProducts(array $filters): array
+    public function readProductsLikeName(string $name, array $filters): array
     {
         $productDAO = new ProductDAO();
-        $results = $productDAO->read(null, $filters);
-        $products = array();
+        $results = $productDAO->readLikeName($name, $filters);
 
-        foreach ($results as $productDTO)
-            array_push($products, $productDAO->createArrayFromDTO($productDTO));
-
-        return $products;
+        return $results;
     }
 
     public function getDatabaseProxy(): DatabaseProxy

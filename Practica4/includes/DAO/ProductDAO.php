@@ -2,7 +2,7 @@
 
 namespace es\ucm\fdi\aw\DAO;
 
-require_once dirname(__DIR__).'/config.php';
+require_once dirname(__DIR__) . '/config.php';
 
 use es\ucm\fdi\aw\DTO\DTO;
 use es\ucm\fdi\aw\DTO\ProductDTO;
@@ -25,6 +25,32 @@ class ProductDAO extends DAO
     }
 
     //  Methods
+    public function readLikeName(string $name, array $filters): array
+    {
+        if (strlen($name) == 0) {
+            $regexStatement = '';
+        } else {
+            //  Prepare regex
+            $regex = "%{$name[0]}%";
+            for ($i = 1; $i < strlen($name); ++$i)
+                $regex .= "{$name[$i]}%";
+
+            $nameKey = self::NAME_KEY;
+            $regexStatement = "WHERE {$nameKey} LIKE :regex";
+        }
+
+        //  Prepare statement
+        $table = self::TABLE_NAME;
+        $query = "SELECT * FROM {$table} {$regexStatement}";
+        $statement = $this->m_DatabaseProxy->prepare($query);
+
+        if ($regexStatement != '')
+            $statement->bindParam(":regex", $regex);
+
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
 
     public function createDTOFromArray($array): DTO
     {
@@ -52,5 +78,4 @@ class ProductDAO extends DAO
 
         return $dtoArray;
     }
-    
 }

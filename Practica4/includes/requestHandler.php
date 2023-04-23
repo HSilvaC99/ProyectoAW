@@ -21,11 +21,14 @@ switch ($action) {
         break;
     case 'read_product': {
             $filters = array();
+            $name = '';
 
             if (isset($data['filters']))
                 $filters = $data['filters'];
+            if (isset($filters['name']))
+                $name = $filters['name'];
 
-            $productsResults = $application->readProducts($filters);
+            $productsResults = $application->readProductsLikeName($name, $filters);
             $jsonResult = json_encode($productsResults);
         }
         break;

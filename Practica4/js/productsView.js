@@ -57,8 +57,6 @@ const convertToProductHTML = (product) => {
         }
     }
 
-    console.log(session);
-
     //  Admin
     if (session.isAdmin) {
         adminTextContent = `
@@ -74,32 +72,35 @@ const convertToProductHTML = (product) => {
     }
 
     return `
-        <div class="d-flex flex-col col-xs-12 col-md-6 col-lg-4 col-xxl-3 px-0">
-            <div class="card shadow d-flex flex-col m-2 px-3">
-                <div class="d-flex flex-fill" id="product-img">
-                    <img class="img-fluid object-fit-contain" src="images/products/${product.imgName}">
-                </div
-                <div class="container-fluid">
-                    <hr class="my-3">
-                    <div class="text-start">
-                        <a class="text-decoration-none text-reset" href="product.php?productID=${product.id}">${product.name}</a>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col text-start">
-                            <div class="text-black text-decoration-none">
-                                ${productTextContent}
-                            </div>
+    <div class="d-flex flex-col col-xs-12 col-md-6 col-lg-4 col-xxl-3 px-0">
+        <div class="card shadow d-flex flex-col m-2 px-3">
+            <div class="d-flex flex-fill" id="product-img">
+                <img class="img-fluid object-fit-contain" src="images/products/${product.imgName}">
+            </div
+            <div class="container-fluid">
+                <hr class="my-3">
+                <div class="text-start">
+                    <a class="text-decoration-none text-reset" href="product.php?productID=${product.id}">${product.name}</a>
+                </div>
+                <div class="row mb-3">
+                    <div class="col text-start">
+                        <div class="text-black text-decoration-none">
+                            ${productTextContent}
                         </div>
-                        ${adminTextContent}
                     </div>
+                    ${adminTextContent}
                 </div>
             </div>
         </div>
+    </div>
     `;
+
 }
 const resetProductsView = () => {
     $('#products-root').empty();
-    $('#products-root').append(getAddProductButton());
+
+    if (session.isAdmin)
+        $('#products-root').append(getAddProductButton());
 }
 const addProductToView = (element) => {
     $('#products-root').append(convertToProductHTML(element));
