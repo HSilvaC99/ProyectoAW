@@ -16,9 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['productID']) && !empty($
 
 ob_start();
 ?>
-<script defer src="js/productsView.js"></script>
-<script defer src="js/productSearchFilter.js"></script>
-<script defer src="js/productSearchbar.js"></script>
+
 <div class="container">
     <div class="my-4">
         <div class="input-group">
@@ -42,3 +40,7 @@ $content = ob_get_clean();
 
 require_once PROJECT_ROOT . '/includes/templates/default_template.php';
 ?>
+
+<script defer src="js/productsView.js"></script>
+<script defer src="js/productSearchFilter.js"></script>
+<script defer src="js/productSearchbar.js"></script>
