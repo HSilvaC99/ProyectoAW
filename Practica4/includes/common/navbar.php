@@ -78,6 +78,7 @@ $menu = array(
                         <span id="contador" class="badge bg-danger rounded-circle"><?= $cartCount ?></span>
                     <?php endif ?>
                 </button>
+                </form>
                 <div class="dropdown" >
                     
                         <ul  id="cart-dropdown" class="dropdown-menu dropdown-menu-dark" onmouseover="showCart()" onmouseout="hideCart()">
@@ -94,7 +95,7 @@ $menu = array(
                                     <li class="dropdown-item" >
                                         <?php echo "Cantidad: " . $product->getAmount() ?>
                                         <a class="dropdown-item" href="product.php?productID=<?= $producto->getID() ?>"><?php echo "Producto " . $producto->getName() ?> </a> 
-                                        <?= ($delete =  new es\ucm\fdi\aw\forms\DeleteProductFromCartForm($producto->getID()))->handleForm(); ?>
+                                        <!--<?= ($delete =  new es\ucm\fdi\aw\forms\DeleteProductFromCartForm($producto->getID()))->handleForm(); ?>-->
 
                                     </li>
                                     <li>
@@ -108,7 +109,7 @@ $menu = array(
                         </ul>
                     <?php endif ?>
                 </div>
-            </form>
+            
             <?php if (isset($_SESSION["user"])) : ?>
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
