@@ -21,14 +21,14 @@ class RoleDAO extends DAO
     }
 
     //  Methods
-    protected function createDTOFromArray($array): DTO
+    public function createDTOFromArray($array): DTO
     {
         $id = $array[self::ID_KEY];
         $roleName = $array[self::ROLE_NAME_KEY];
 
         return new RoleDTO($id, $roleName);
     }
-    protected function createArrayFromDTO($dto): array
+    public function createArrayFromDTO($dto): array
     {
         return array(
             self::ID_KEY => $dto->getID(),

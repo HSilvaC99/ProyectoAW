@@ -33,7 +33,7 @@ class UserRoleDAO extends DAO
         return $statement->execute();
     }
 
-    protected function createDTOFromArray($array): DTO
+    public function createDTOFromArray($array): DTO
     {
         $userID = $array[self::USER_ID_KEY];
         $roleID = $array[self::ROLE_ID_KEY];
@@ -41,7 +41,7 @@ class UserRoleDAO extends DAO
         return new UserRoleDTO($userID, $roleID);
     }
     
-    protected function createArrayFromDTO($dto): array
+    public function createArrayFromDTO($dto): array
     {
         $dtoArray = array(
             self::USER_ID_KEY => $dto->getUserID(),

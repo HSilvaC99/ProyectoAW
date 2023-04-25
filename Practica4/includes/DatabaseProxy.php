@@ -1,8 +1,8 @@
 <?php
 
-namespace es\ucm\fdi\aw\database;
+namespace es\ucm\fdi\aw;
 
-require_once 'includes/config.php';
+require_once 'config.php';
 
 use PDO;
 use PDOException;

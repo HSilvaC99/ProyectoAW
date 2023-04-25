@@ -21,14 +21,14 @@ class UserQuestionDAO extends DAO
     }
 
     //  Methods
-    protected function createDTOFromArray($array): DTO
+    public function createDTOFromArray($array): DTO
     {
         $userID = $array[self::USER_ID_KEY];
         $questionID = $array[self::QUESTION_ID_KEY];
 
         return new UserQuestionDTO($userID, $questionID);
     }
-    protected function createArrayFromDTO($dto): array
+    public function createArrayFromDTO($dto): array
     {
         return array(
             self::USER_ID_KEY => $dto->getUserID(),

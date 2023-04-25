@@ -54,7 +54,7 @@ class QuestionDAO extends DAO
         return $results;
     }
 
-    protected function createDTOFromArray($array): DTO
+    public function createDTOFromArray($array): DTO
     {
         $id = $array[self::ID_KEY];
         $title = $array[self::TITLE_KEY];
@@ -63,7 +63,7 @@ class QuestionDAO extends DAO
 
         return new QuestionDTO($id, $title, $message, $creationDate);
     }
-    protected function createArrayFromDTO($dto): array
+    public function createArrayFromDTO($dto): array
     {
         $dtoArray = array(
             self::TITLE_KEY => $dto->getTitle(),
