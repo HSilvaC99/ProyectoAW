@@ -89,31 +89,34 @@ if (count($my_array) == 0) { ?>
             <a class="d-flex col-md-2 btn btn-primary justify-content-center" id="buy-now" href="purchase.php?subtotal=<?= $subtotal ?>">Comprar</a>
         </div>
     </div>
-    <script>
-        function actualizarTabla(productID) {
-            // Obtener la cantidad de productos del input
-            const cantidad = parseInt(document.getElementById('amount-${productID}').value);
-            console.log(cantidad)
-            // Calcular el nuevo precio para el producto
-            const PxU = parseFloat(document.getElementById('price-unity-${productID}').textContent);
-            console.log(PxU)
-            const nuevoPrecio = cantidad * PxU;
-            console.log(nuevoPrecio)
+    <h4 class="mt-4 mb-4 fw-bold justify-content-end d-flex">Subtotal: <span id="subtotal"> <?= $subtotal ?> </span> €</h4>
+    <a class="btn btn-primary " id="buy-now" href="purchase.php?subtotal=<?= $subtotal ?>">Comprar</a>
+  </div>
+  <script>
+    function actualizarTabla(productID) {
+      // Obtener la cantidad de productos del input
+      const cantidad = parseInt(document.getElementById(`amount-${productID}`).value);
+      console.log(cantidad)
+      // Calcular el nuevo precio para el producto
+      const PxU = parseFloat(document.getElementById(`price-unity-${productID}`).textContent);
+      console.log(PxU)
+      const nuevoPrecio = cantidad * PxU;
+      console.log(nuevoPrecio)
 
-            // Actualizar el texto dentro del <td> que contiene el precio
-            document.getElementById('price-${productID}').textContent = nuevoPrecio.toFixed(2);
+      // Actualizar el texto dentro del <td> que contiene el precio
+      document.getElementById(`price-${productID}`).textContent = nuevoPrecio.toFixed(2);
 
-            // Calcular el subtotal de la tabla sumando los precios de todos los productos
-            let subtotal = 0;
-            document.querySelectorAll('table tbody tr').forEach(row => {
-                const precioPorUnidad = parseFloat(row.querySelector('td:nth-child(5) p').textContent);
-                subtotal += precioPorUnidad;
-            });
-            console.log(subtotal)
-            // Actualizar el texto dentro del <p> que contiene el subtotal
-            document.getElementById('subtotal').textContent = subtotal.toFixed(2);
-        }
-    </script>
+      // Calcular el subtotal de la tabla sumando los precios de todos los productos
+      let subtotal = 0;
+      document.querySelectorAll('table tbody tr').forEach(row => {
+        const precioPorUnidad = parseFloat(row.querySelector('td:nth-child(5) p').textContent);
+        subtotal += precioPorUnidad;
+      });
+      console.log(subtotal)
+      // Actualizar el texto dentro del <p> que contiene el subtotal
+      document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+    }
+  </script>
 <?php } ?>
 
 <?php
@@ -126,8 +129,8 @@ require_once PROJECT_ROOT . '/includes/templates/default_template.php';
 ?>
 
 <style>
-    #buy-now {
-        font-size: 24px;
-        padding: 12px 24px;
-    }
+  #buy-now {
+    font-size: 24px;
+    padding: 12px 24px;
+  }
 </style>

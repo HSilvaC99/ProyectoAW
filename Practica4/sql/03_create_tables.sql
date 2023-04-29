@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: vm08.db.swarm.test
--- Tiempo de generación: 17-04-2023 a las 18:51:27
--- Versión del servidor: 10.9.5-MariaDB-1:10.9.5+maria~ubu2204
--- Versión de PHP: 8.1.15
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 28-04-2023 a las 17:53:05
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,6 +24,30 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `addresses`
+--
+
+CREATE TABLE `addresses` (
+  `id` int(11) NOT NULL,
+  `street` varchar(1000) NOT NULL,
+  `floor` varchar(1000) NOT NULL,
+  `zip` int(11) NOT NULL,
+  `city` varchar(1000) NOT NULL,
+  `province` varchar(1000) NOT NULL,
+  `country` varchar(1000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `addresses`
+--
+
+INSERT INTO `addresses` (`id`, `street`, `floor`, `zip`, `city`, `province`, `country`) VALUES
+(1, 'Calle Velez 34', '2º izq', 28006, 'Madrid', 'Madrid', 'España'),
+(2, 'Calle Jesus', '12', 245738, 'Madrid', 'Madrid', 'España');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `answers`
 --
 
@@ -31,6 +55,20 @@ CREATE TABLE `answers` (
   `id` int(11) NOT NULL,
   `message` text NOT NULL,
   `creationDate` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `card`
+--
+
+CREATE TABLE `card` (
+  `id` int(11) NOT NULL,
+  `number` int(16) NOT NULL,
+  `expirate` varchar(5) NOT NULL,
+  `cvv` int(3) NOT NULL,
+  `name` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -83,6 +121,8 @@ CREATE TABLE `events_users` (
 
 INSERT INTO `events_users` (`eventID`, `userID`, `eventRoleID`) VALUES
 (12, 6, 3),
+(12, 12, 1),
+(12, 6, 3),
 (12, 12, 1);
 
 -- --------------------------------------------------------
@@ -128,11 +168,10 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `state`, `date`, `amount`, `quantity`, `paymentMethod`, `address`) VALUES
-(1, 'En proceso', '2023-04-10', 123.00, 1, 'Visa', 'Calle Magdalena'),
-(15, 'cancelado', '2023-04-13', 668.00, 1, 'Tarjeta Credito', ''),
-(17, 'cancelado', '2023-04-17', 799.90, 1, 'Tarjeta Credito', 'A'),
-(18, 'cancelado', '2023-04-17', 562.49, 1, 'Tarjeta Credito', ''),
-(19, 'cancelado', '2023-04-17', 799.90, 1, 'Tarjeta Credito', '');
+(64, 'en proceso', '2023-04-28', 668.11, 1, 'Tarjeta Credito', ''),
+(65, 'pendiente', '2023-04-28', 668.11, 1, 'Transferencia Bancaria', ''),
+(66, 'en proceso', '2023-04-28', 668.11, 1, 'Tarjeta Credito', ''),
+(67, 'pendiente', '2023-04-28', 668.11, 0, 'Transferencia Bancaria', '');
 
 -- --------------------------------------------------------
 
@@ -325,7 +364,26 @@ INSERT INTO `users` (`id`, `name`, `surname`, `email`, `passwordHash`) VALUES
 (6, 'Alexander', 'López Vega', 'alex.lopez.ve@gmail.com', '$2y$10$bOVt7M3p2mQtvQTkStsNj.x3Rw9rKmvvHrqTt.RF7z46bJONYM2AG'),
 (12, 'Hugo', 'Silva', 'hsilva@ucm.es', '$2y$10$J.hO7gzo7cEjUbkH4oy6nuBV80raqlHCo6h41t2vt5vqwwwXFm8Qy'),
 (13, 'Dragos Ionut', 'Camarasan', 'dragosca@ucm.es', '$2y$10$e4IOMlAGUKEI7CBH1AxDfuK8lbd1A62F6bQ7oxUtt5k/rva14EVL.'),
-(14, 'June', 'Zuazo', '1234@ucm.es', '$2y$10$u.JMyHOYDOBRqe2QXy4Qy.sK6UVcL2DgZDSMl4x2UH7t0OaiELQpy');
+(15, 'June', 'Zuazo', '1234@ucm.es', '$2y$10$mIW8YlcHRGZRufAsQ47jpOCTbMtMVx.hNu6Sek3vDBki9TC5rX17a');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `users_addresses`
+--
+
+CREATE TABLE `users_addresses` (
+  `userID` int(11) NOT NULL,
+  `addressID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `users_addresses`
+--
+
+INSERT INTO `users_addresses` (`userID`, `addressID`) VALUES
+(15, 2),
+(15, 1);
 
 -- --------------------------------------------------------
 
@@ -355,9 +413,10 @@ CREATE TABLE `users_orders` (
 --
 
 INSERT INTO `users_orders` (`userID`, `orderID`) VALUES
-(12, 17),
-(12, 18),
-(12, 19);
+(15, 64),
+(15, 65),
+(15, 66),
+(15, 67);
 
 -- --------------------------------------------------------
 
@@ -401,20 +460,31 @@ INSERT INTO `users_roles` (`userID`, `roleID`) VALUES
 (6, 1),
 (12, 1),
 (13, 1),
-(14, 1),
+(15, 1),
 (6, 2),
 (12, 2),
-(13, 2),
-(14, 2);
+(13, 2);
 
 --
 -- Índices para tablas volcadas
 --
 
 --
+-- Indices de la tabla `addresses`
+--
+ALTER TABLE `addresses`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `answers`
 --
 ALTER TABLE `answers`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `card`
+--
+ALTER TABLE `card`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -515,6 +585,13 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `users_addresses`
+--
+ALTER TABLE `users_addresses`
+  ADD KEY `userID` (`userID`),
+  ADD KEY `addressID` (`addressID`);
+
+--
 -- Indices de la tabla `users_answers`
 --
 ALTER TABLE `users_answers`
@@ -557,10 +634,22 @@ ALTER TABLE `users_roles`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `addresses`
+--
+ALTER TABLE `addresses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de la tabla `answers`
 --
 ALTER TABLE `answers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `card`
+--
+ALTER TABLE `card`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `categories`
@@ -578,7 +667,7 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT de la tabla `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT de la tabla `payment_method`
@@ -620,7 +709,7 @@ ALTER TABLE `states`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Restricciones para tablas volcadas
@@ -655,6 +744,13 @@ ALTER TABLE `product_user_reviews`
 ALTER TABLE `questions_answers`
   ADD CONSTRAINT `questions_answers_ibfk_1` FOREIGN KEY (`answerID`) REFERENCES `answers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `questions_answers_ibfk_2` FOREIGN KEY (`questionID`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `users_addresses`
+--
+ALTER TABLE `users_addresses`
+  ADD CONSTRAINT `users_addresses_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `users_addresses_ibfk_2` FOREIGN KEY (`addressID`) REFERENCES `addresses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `users_answers`
