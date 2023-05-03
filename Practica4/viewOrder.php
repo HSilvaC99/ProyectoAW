@@ -3,6 +3,7 @@
 use es\ucm\fdi\aw\DAO\OrderDAO;
 use es\ucm\fdi\aw\DAO\UserOrderDAO;
 use es\ucm\fdi\aw\DAO\UserDAO;
+use es\ucm\fdi\aw\DAO\AddressDAO;
 use es\ucm\fdi\aw\forms\UpdateOrderForm;
 
 require_once 'includes/config.php';
@@ -19,7 +20,11 @@ $results = $orderDAO->getOrderForUser($userID);
 $userDAO = new UserDAO;
 $users = $userDAO->getContact($userID);
 
+$addressDAO = new AddressDAO;
 
+$addr = $addressDAO->read();
+
+$my_array = $addressDAO->getAddressForUser($userID);
 
 ob_start();
 ?>
@@ -39,13 +44,79 @@ ob_start();
                 <?php if (isset($_POST['edit_address'])) : ?>
                     <!-- Formulario para editar la dirección de envío -->
                     <form method="post">
-                        <p><strong>Dirección de envío: </strong><input type="text" name="address" value="<?php echo $result['addressO']; ?>"></p>
-                        <button type="submit" name="save_address" class="btn btn-primary">Guardar</button>
+                        <p><strong>Direcciones de envío: <!--</strong><input type="text" name="address" value="<?php //echo $result['addressO']; ?>"></p>-->
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                <th></th>
+                                <th>Dirección</th>
+                                <th>Piso</th>
+                                <th>Código Postal</th>
+                                <th>Ciudad</th>
+                                <th>Provincia</th>
+                                <th>País</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                
+                                foreach ($my_array as $m) {
+                                    echo "<tr>";
+                                    echo "<td><input type='checkbox' name='direccion_envio' value='" . $m['addressID'] . "' data-id='" . $m['addressID'] . "' onclick='uncheckAll(this)'></td>";
+
+                                    echo "<td>" . $m['streetO'] . "</td>";
+                                    echo "<td>" . $m['floorO'] . "</td>";
+                                    echo "<td>" . $m['zipO'] . "</td>";
+                                    echo "<td>" . $m['cityO'] . "</td>";
+                                    echo "<td>" . $m['provinceO'] . "</td>";
+                                    echo "<td>" . $m['countryO'] . "</td>";
+                                    echo "</tr>";
+                                }
+                                ?>
+                            </tbody>
+                            </table>
+                        <form method="post">
+                            <input type="hidden" name="dir" id="dir-input">
+                                <!-- Agrega otros campos de entrada aquí -->
+                            <button type="submit" name="save_address" class="btn btn-primary">Guardar</button>
+                        </form>
+                        <!--<button type="submit" name="save_address" class="btn btn-primary">Guardar</button>-->
                         <button type="submit" name="cancel_edit" class="btn btn-secondary">Cancelar</button>
                     </form>
                 <?php else : ?>
                     <!-- Mostrar la dirección de envío actual y el botón para editar -->
-                    <p><strong>Dirección de envío: </strong><?php echo $result["addressO"]; ?></p>
+                    <?php $var = $addressDAO->getAddressForOrder($result["addressO"]); ?>
+                    <p><strong>Dirección de envío: </strong></p>
+
+                    <table class="table">
+                            <thead>
+                                <tr>
+                                <th>Dirección</th>
+                                <th>Piso</th>
+                                <th>Código Postal</th>
+                                <th>Ciudad</th>
+                                <th>Provincia</th>
+                                <th>País</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                
+                                foreach ($var as $v) {
+                                    echo "<tr>";
+                                    
+                                    echo "<td>" . $v['street'] . "</td>";
+                                    echo "<td>" . $v['floor'] . "</td>";
+                                    echo "<td>" . $v['zip'] . "</td>";
+                                    echo "<td>" . $v['city'] . "</td>";
+                                    echo "<td>" . $v['province'] . "</td>";
+                                    echo "<td>" . $v['country'] . "</td>";
+                                    echo "</tr>";
+                                }
+                                ?>
+                            </tbody>
+                            </table>
+
                     <form method="post">
                         <?php if ($result["stateO"] == "pendiente" || $result["stateO"] == "en proceso") : ?>
                             <td>
@@ -103,15 +174,32 @@ ob_start();
         endif; ?>
     <?php endforeach; ?>
 </div>
-
+<script>
+            function uncheckAll(clickedCheckbox) {
+                var checkboxes = document.getElementsByName("direccion_envio");
+                for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i] !== clickedCheckbox) {
+                    checkboxes[i].checked = false;
+                }
+                }
+                            
+                // Obtener el ID del registro seleccionado
+                var dir = clickedCheckbox.value;
+                console.log("ID del registro seleccionado:", dir);
+                            
+                // Pasar el valor de dir al campo de entrada oculto
+                var dirInput = document.getElementById("dir-input");
+                dirInput.value = dir;
+            }
+        </script>
 <?php
 // Si se ha enviado el formulario para guardar la nueva dirección de envío
 if (isset($_POST['save_address'])) {
     // Obtener la nueva dirección de envío
-    $new_address = $_POST['address'];
-
+    //$new_address = $_POST['address'];
+    $dir = $_POST["dir"];
     // Actualizar la dirección de envío en la base de datos
-    $orderDAO->UpdateAddress($orderID, $new_address);
+    $orderDAO->UpdateAddress($orderID, $dir);
 
     // Redirigir a la misma página para mostrar la nueva dirección de envío
     header('Location: orders.php');
