@@ -29,8 +29,9 @@ $results = $addressDAO->getAddressForUser($uID);
 if (isset($_GET["subtotal"])){
     $subtotal = $_GET["subtotal"];
     $my_array = array();
-   
-    $my_array = $userProductDAO->getUserCart($uID);
+    //$_SESSION["SELECCION_CESTA"];
+    //$my_array = $userProductDAO->getUserCart($uID);
+    $my_array = $_SESSION["SELECCION_CESTA"];
 
     $cartCount = count($my_array);
    

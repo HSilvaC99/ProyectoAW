@@ -69,46 +69,52 @@ $menu = array(
                     </li>
                 <?php endforeach ?>
             </ul>
-            <form action="shoppingCart.php">
-                <button type="submit" class="rounded-circle btn btn-outline-light me-3 pt-1"  onclick="modifyCart()" onmouseover="showCart()" onmouseout="hideCart()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="25" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
-                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                    </svg>
-                    <?php if ($cartCount > 0) : ?>
-                        <span id="contador" class="badge bg-danger rounded-circle"><?= $cartCount ?></span>
-                    <?php endif ?>
-                </button>
-                <div class="dropdown" >
-                    
-                        <ul  id="cart-dropdown" class="dropdown-menu dropdown-menu-dark" onmouseover="showCart()" onmouseout="hideCart()">
-                            <?php if (empty($my_array)) : ?>
-                                <p class="text-center">El carrito está vacío.</p>
-                            <?php else : ?>
-                            <?php $cartCount = 0;
-                            foreach ($my_array as $product) : ?>
-                                <?php if ($product->getID1() == $uID) :
-                                    $producto = $prodDAO->read($product->getID2())[0];
-                                    $subtotal = $subtotal + ($producto->getOfferPrice() * $product->getAmount());
+            
+            <div class="dropdown me-4 ">
+            
+                <form action="shoppingCart.php">
+                    <button type="button" class="rounded-circle btn btn-outline-light pt-1" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="showCart()" onmouseout="hideCart()" onclick="window.location.href='shoppingCart.php'">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="25" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                        </svg>
+                        
+                        <?php if ($cartCount > 0) : ?>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="amount-cart"> <?=  $cartCount ?> </span>
+                        <?php endif ?>
+                    </button>
+                </form>
+                
+                <ul  id="cart-dropdown" class="dropdown-menu  dropdown-menu-dark" style="position: fixed;  right: 100px;"  onmouseover="showCart()" onmouseout="hideCart()">
+                    <p class="text-center" id="carrito-empty" style="display:none;">El carrito está vacío.</p>
+                    <?php if (empty($my_array)) : ?>
+                        <p class="text-center" id="carrito-empty">El carrito está vacío.</p>
+                    <?php else : ?>
+                    <?php $cartCount = 0;
+                        foreach ($my_array as $product) : ?>
+                            <?php if ($product->getID1() == $uID) :
+                                $producto = $prodDAO->read($product->getID2())[0];
+                                $subtotal = $subtotal + ($producto->getOfferPrice() * $product->getAmount());
+                            ?>
+                                <li class="dropdown-item" >
+                                    <span id="cantidad-<?= $producto->getID() ?>"> Cantidad: <span id="amountProduct-<?= $producto->getID() ?>"><?= $product->getAmount()?> </span> 
+                                    
+                                    <a id="name-<?= $producto->getID() ?>" class="dropdown-item" href="product.php?productID=<?= $producto->getID() ?>"><?php echo  $producto->getName() ?> </a> 
+                                    <!--<?= ($delete =  new es\ucm\fdi\aw\forms\DeleteProductFromCartForm($producto->getID()))->handleForm(); ?>-->
 
-                                ?>
-                                    <li class="dropdown-item" >
-                                        <?php echo "Cantidad: " . $product->getAmount() ?>
-                                        <a class="dropdown-item" href="product.php?productID=<?= $producto->getID() ?>"><?php echo "Producto " . $producto->getName() ?> </a> 
-                                        <?= ($delete =  new es\ucm\fdi\aw\forms\DeleteProductFromCartForm($producto->getID()))->handleForm(); ?>
-
-                                    </li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                <?php endif ?>
-                            <?php endforeach ?>
-                            <li class = "text-danger">
-                                <?php echo "Subtotal " .  $subtotal ?>
-                            </li>
-                        </ul>
-                    <?php endif ?>
-                </div>
-            </form>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider" id = "divider-<?= $producto->getID() ?>">
+                                </li>
+                            <?php endif ?>
+                        <?php endforeach ?>
+                    <li class = "text-danger">
+                        <span id="subtotal-up"> Subtotal:  <span id="valSubtotal"> <?=number_format($subtotal,2) ?> €</span> </span>
+                        
+                    </li>
+                </ul>
+                <?php endif ?>
+            </div>
+                
             <?php if (isset($_SESSION["user"])) : ?>
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -141,19 +147,8 @@ $menu = array(
             <?php endif ?>
         </div>
     </div>
-    <script>
-        
-
-        function showCart() {
-            document.getElementById("cart-dropdown").classList.add("show");
-        }
-
-        function hideCart() {
-            document.getElementById("cart-dropdown").classList.remove("show");
-        }
-
-        document.querySelector('.btn-outline-secondary').onmouseover = showCart;
-        document.querySelector('.btn-outline-secondary').onmouseleave = hideCart;
-
-    </script>
 </nav>
+
+<script defer src="js/showOrHideShoppingCart.js"></script>
+<script defer src="js/updateCart.js"></script>
+<script defer src="js/updateProduct.js"></script>

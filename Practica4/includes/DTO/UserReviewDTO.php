@@ -2,7 +2,7 @@
 
 namespace es\ucm\fdi\aw\DTO;
 
-require_once 'includes/config.php';
+require_once dirname(__DIR__).'/config.php';
 
 class UserReviewDTO extends DTO
 {

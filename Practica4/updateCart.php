@@ -1,50 +1,47 @@
 <?php
-
-
-
+require_once 'includes/config.php';
 use es\ucm\fdi\aw\DAO\UserProductDAO;
 use es\ucm\fdi\aw\DAO\ProductDAO;
 
-require_once 'includes/config.php';
 $userProductDAO = new UserProductDAO;
 $productDAO = new ProductDAO;
 
-
+$data = $_REQUEST;
 // Comprueba que se recibieron los parámetros correctos
-if (!isset($_POST['product_id']) || !isset($_POST['quantity'])) {
+if (!isset($data['product_id']) || !isset($data['amount'])) {
 
     exit;
 }
 
 // Actualiza la cantidad del producto en el carrito
 $uID = isset($_SESSION["user"]) ? $_SESSION["user"]->getID() : -1;
-$productID = $_POST['product_id'];
-$quantity = $_POST['quantity'];
-if ($cantidad > 0) {
+
+$productID = $data['product_id'];
+$amount = $data['amount'];
+$subtotal = 0;
+$cantidad = 0;
+if ($amount > 0) {
     // Si la actualización fue exitosa, calcula el nuevo subtotal y envía una respuesta JSON
     $my_array = isset($_SESSION["user"]) ? $userProductDAO->getUserCart($uID) : $_SESSION["carritoTemporal"];
+    $encontrado = false;
     foreach ($my_array as $prod) {
-        if ($prod->getID1() == $uID) {
-            $producto = $productDAO->read($prod->getID2())[0];
-            $subtotal += $producto->getPrice() * $prod->getAmount();
-            $amount =  $prodDTO->getAmount() + $cantidad;
-            if (isset($_SESSION["user"])){
-                $producto->setAmount($amount);
-                $usersroductDAO->updateWithCompoundKey($producto);
-            }
+        $producto = $productDAO->read($prod->getID2())[0];
+        if ($prod->getID1() == $uID && $prod->getID2() == $productID) {
+            $amount =  $amount;
+            $prod->setAmount($amount);
+            $userProductDAO->updateWithCompoundKey($prod);
+            
         }
+        $subtotal += $producto->getOfferPrice() * $prod->getAmount();
+        $cantidad += $prod->getAmount();
     }
-    $response = array('success' => true, 'subtotal' => $subtotal);
+    $response = array('success' => true, 'subtotal' => $subtotal, 'amount'=>$cantidad);
     echo json_encode($response);
 } else {
     // Una pestañita para preguntar si queremos borrar el objeto
-    $response = array('success' => false, 'message' => 'La cantidad debe ser mayor que cero');
+    $response = array('success' => true, 'message' => 'La cantidad debe ser mayor que cero');
     echo json_encode($response);
 }
-
-
-$content = ob_get_clean();
-require_once 'includes/templates/events_template.php';
 
 ?>
 
