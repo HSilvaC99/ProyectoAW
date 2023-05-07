@@ -48,14 +48,25 @@ class UserProductDAO extends DAO
 
         $amount = $statement->fetchColumn();
         $userProductDTO = new UserProductDTO($userID, $productID, $amount);
-
-
+      
         return $userProductDTO;
     }
 
-    
+    public function deleteCart(): bool
+    {
+        $query = 'DELETE FROM users_products';
+        $statement = $this->m_DatabaseProxy->prepare($query);
+        return $userProductDTO;
+    }
 
-    
+    public function getAmount($productID): bool
+    {
+        $query = 'SELECT amount FROM users_products WHERE productID = :productID';
+        $statement = $this->m_DatabaseProxy->prepare($query);
+        $statement->bindParam(':productID', $productID);
+
+        return $statement->execute();
+    }
 
     public function updateWithCompoundKey($dto)
     {
@@ -112,9 +123,6 @@ class UserProductDAO extends DAO
 
         return $statement->execute();
     }
-  
-
-    
 
     protected function createDTOFromArray($array): DTO
     {
