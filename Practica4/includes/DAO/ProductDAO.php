@@ -27,25 +27,48 @@ class ProductDAO extends DAO
     //  Methods
     public function readLikeName(string $name, array $filters): array
     {
-        if (strlen($name) == 0) {
-            $regexStatement = '';
-        } else {
-            //  Prepare regex
+        //  Name
+        if (strlen($name) > 0) {
             $regex = "%{$name[0]}%";
             for ($i = 1; $i < strlen($name); ++$i)
                 $regex .= "{$name[$i]}%";
 
             $nameKey = self::NAME_KEY;
-            $regexStatement = "WHERE {$nameKey} LIKE :regex";
+            $regexStatement = "{$nameKey} LIKE :{$nameKey}";
         }
+        //  Value filters
+        $numFilters = count($filters);
+        if ($numFilters > 0) {
+            $filtersKeys = array_keys($filters);
+
+            $filtersStatement = "{$filtersKeys[0]}=:{$filtersKeys[0]}";
+
+            for ($i = 1; $i < $numFilters; ++$i)
+                $filtersStatement .= " AND {$filtersKeys[$i]}=:{$filtersKeys[$i]}";
+        }
+
+        //  Final filter string
+        $whereString = '';
+
+        if (isset($regexStatement) && isset($filtersStatement)) {
+            $whereString = "WHERE {$regexStatement} AND {$filtersStatement}";
+        }
+        else if (isset($regexStatement))
+            $whereString = "WHERE {$regexStatement}";
+        else if (isset($filtersStatement))
+            $whereString = "WHERE {$filtersStatement}";
 
         //  Prepare statement
         $table = self::TABLE_NAME;
-        $query = "SELECT * FROM {$table} {$regexStatement}";
+        $query = "SELECT * FROM {$table} {$whereString}";
         $statement = $this->m_DatabaseProxy->prepare($query);
 
-        if ($regexStatement != '')
-            $statement->bindParam(":regex", $regex);
+        if (isset($regexStatement))
+            $statement->bindParam($nameKey, $regex);
+
+        if (isset($filtersStatement))
+            for ($i = 0; $i < $numFilters; ++$i)
+                $statement->bindParam($filtersKeys[$i], $filters[$i]);
 
         $statement->execute();
 

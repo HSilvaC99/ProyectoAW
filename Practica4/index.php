@@ -1,7 +1,5 @@
 <?php
 
-use es\ucm\fdi\aw\DAO\UserDAO;
-
 require_once 'includes/config.php';
 
 ?>
