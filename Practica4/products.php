@@ -1,5 +1,7 @@
 <?php
 
+use es\ucm\fdi\aw\DAO\CategoryDAO;
+use es\ucm\fdi\aw\DAO\ManufacturerDAO;
 use es\ucm\fdi\aw\DAO\ProductDAO;
 
 require_once 'includes/config.php';
@@ -28,34 +30,44 @@ ob_start();
         </div>
     </div>
     <hr>
-    <div class="container-fluid">
+    <div class="container-fluid mb-3">
         <div class="row">
-            <div class="card py-2 shadow-lg col-sm-12 col-lg-3">
+            <div class="card pb-3 py-2 mt-2 shadow-lg col-sm-12 col-lg-3">
                 <form>
                     <div id="filterBy">
                         <legend>Filtrar por</legend>
                         <div class="form-group mb-2">
                             <label for="filterCriteriaFirearmType">Tipo</label>
                             <select name="filterCriteriaFirearmType" id="filterCriteriaFirearmType" class="form-control">
-                                <option value="pistol">Pistola</option>
-                                <option value="automaticRifle">Rifle automática</option>
-                                <option value="lmg">LMG</option>
-                                <option value="sniperRifle">Francotirador</option>
+                                <option value="-1" selected>Todos</option>
+                                <?php
+                                $categoryDAO = new CategoryDAO();
+
+                                $results = $categoryDAO->read();
+
+                                foreach ($results as $result) :
+                                ?>
+
+                                    <option value="<?= $result->getID() ?>"><?= $result->getName() ?></option>
+
+                                <?php endforeach; ?>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="filterCriteriaFirearmManufacturer">Fabricante</label>
                             <select name="filterCriteriaFirearmManufacturer" id="filterCriteriaFirearmManufacturer" class="form-control">
-                                <option value="tokyoMarui">Tokyo Marui</option>
-                                <option value="kingArms">King Arms</option>
-                                <option value="aps">APS</option>
-                                <option value="a&k">A&K</option>
-                                <option value="amoeba">Amoeba</option>
-                                <option value="ics">ICS</option>
-                                <option value="kjWorks">KJ Works</option>
-                                <option value="weTech">WE Tech</option>
-                                <option value="g&p">G&P</option>
-                                <option value="specnaArms">Specna Arms</option>
+                                <option value="-1" selected>Todos</option>
+                                <?php
+                                $manufacturerDAO = new ManufacturerDAO();
+
+                                $results = $manufacturerDAO->read();
+
+                                foreach ($results as $result) :
+                                ?>
+
+                                    <option value="<?= $result->getID() ?>"><?= $result->getName() ?></option>
+
+                                <?php endforeach; ?>
                             </select>
                         </div>
                     </div>
@@ -67,9 +79,13 @@ ob_start();
                         <div class="form-group">
                             <label for="orderCriteria">Criterio</label>
                             <select name="orderCriteria" id="orderCriteria" class="form-control">
-                                <option value="name">Nombre</option>
-                                <option value="firearmManufacturer">Fabricante</option>
-                                <option value="manufactureDate">Fecha de fabricación</option>
+                                <!-- Esto está muy mal pero es lo que hay :P -->
+                                <option value="name ascending" selected>Nombre (A > Z)</option>
+                                <option value="name descending">Nombre (Z > A)</option>
+                                <option value="manufacturer ascending">Fabricante (A > Z)</option>
+                                <option value="manufacturer descending">Fabricante (Z > A)</option>
+                                <option value="manufactureYear ascending">Año de fabricación (A > Z)</option>
+                                <option value="manufactureYear descending">Año de fabricación (Z > A)</option>
                             </select>
                         </div>
                     </div>
@@ -91,5 +107,5 @@ require_once PROJECT_ROOT . '/includes/templates/default_template.php';
 ?>
 
 <script defer src="js/productsView.js"></script>
-<script defer src="js/producFilterHandler.js"></script>
+<script defer src="js/producSearchHandler.js"></script>
 <script defer src="js/productSearchbar.js"></script>

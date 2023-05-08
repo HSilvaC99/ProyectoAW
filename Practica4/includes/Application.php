@@ -29,10 +29,10 @@ class Application
         return self::$s_Instance;
     }
 
-    public function readProductsLikeName(string $name, array $filters): array
+    public function searchProducts(array $filters, string $orderBy): array
     {
         $productDAO = new ProductDAO();
-        $results = $productDAO->readLikeName($name, $filters);
+        $results = $productDAO->searchProducts($filters, $orderBy);
 
         return $results;
     }

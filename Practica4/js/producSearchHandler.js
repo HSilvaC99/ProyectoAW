@@ -1,16 +1,16 @@
 'use strict'
 
 const searchFilters = {};
+let orderBy = 'name ascending';
 
 const refreshProductsViewAsync = async () => {
     try {
         //  Prepare data
         const data = {
             action: 'read_product',
-            filters: searchFilters
+            filters: searchFilters,
+            orderBy: orderBy
         };
-
-        console.log(data);
 
         //  Do GET
         const result = await $.ajax({
@@ -35,8 +35,6 @@ const refreshProductsViewAsync = async () => {
 async function applySearchFilterAsync(filterName, filterValue) {
     searchFilters[filterName] = filterValue;
 
-    console.log(searchFilters);
-
     await refreshProductsViewAsync();
 }
 async function removeSearchFilterAsync(filterName) {
@@ -52,7 +50,10 @@ function registerAllFormFilters() {
                 const filterName = $(this).attr('name');
                 const filterValue = this.value;
 
-                applySearchFilterAsync(filterName, filterValue);
+                if (filterValue == -1)
+                    removeSearchFilterAsync(filterName);
+                else
+                    applySearchFilterAsync(filterName, filterValue);
             });
         });
     });
@@ -61,7 +62,9 @@ function registerAllFormOrderBys() {
     $('#orderBy').children('.form-group').each(function () {
         $(this).children('select').each(function () {
             this.addEventListener('change', () => {
-                console.log('order by changed!');
+                orderBy = this.value;
+
+                refreshProductsViewAsync();
             });
         });
     });
