@@ -77,14 +77,14 @@ class EventRolesDAO extends DAO
         return $results;
     }
 
-    public function createDTOFromArray($array): DTO
+    protected function createDTOFromArray($array): DTO
     {
         $id = $array[self::ID_KEY];
         $name = $array[self::NAME_KEY];
 
         return new EventRoleDTO($id, $name);
     }
-    public function createArrayFromDTO($dto): array
+    protected function createArrayFromDTO($dto): array
     {
         return array(
             self::ID_KEY => $dto->getID(),

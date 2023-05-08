@@ -40,6 +40,7 @@ if (isset($_SESSION["user"])) {
 	<script defer src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 	<script defer src="js/sessionCookie.js"></script>
 
+	
 	<title><?= $title ?></title>
 </head>
 

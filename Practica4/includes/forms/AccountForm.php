@@ -100,7 +100,7 @@ class AccountForm extends Form
 
             <div class="col-sm-12">
                 <label for="email" class="form-label">Correo electrónico</label>
-                <input type="email" class="form-control" name="email" value="$email" required>
+                <input type="email" class="form-control" name="email" value="$email" >
             </div>
 
             <div class="col-sm-12">
@@ -110,13 +110,13 @@ class AccountForm extends Form
 
             <div class="col-sm-6">
                 <label for="userName" class="form-label">Nombre</label>
-                <input type="text" class="form-control" name="userName" value="$userName" required>
+                <input type="text" class="form-control" name="userName" value="$userName" >
                 
             </div>
 
             <div class="col-sm-6">
                 <label for="userSurname" class="form-label">Apellidos</label>
-                <input type="text" class="form-control" name="userSurname" value="$userSurname" required>
+                <input type="text" class="form-control" name="userSurname" value="$userSurname" >
                 
             </div>
         </div>

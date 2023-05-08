@@ -78,7 +78,7 @@ class ReviewDAO extends DAO
         return $results;
     }
 
-    public function createDTOFromArray($array): DTO
+    protected function createDTOFromArray($array): DTO
     {
         //var_dump($array);
         $id = $array[self::ID_KEY];
@@ -89,7 +89,7 @@ class ReviewDAO extends DAO
     return new ReviewDTO($id, $comment, $review, $date);
     }
 
-    public function createArrayFromDTO($dto): array
+    protected function createArrayFromDTO($dto): array
     {
         $dtoArray = array(
             //self::ID_KEY => $dto->getID(),

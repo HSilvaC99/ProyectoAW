@@ -122,6 +122,6 @@ abstract class DAO
         return $statement->execute();
     }
 
-    public abstract function createDTOFromArray($array): DTO;
-    public abstract function createArrayFromDTO($DTO): array;
+    protected abstract function createDTOFromArray($array): DTO;
+    protected abstract function createArrayFromDTO($DTO): array;
 }
