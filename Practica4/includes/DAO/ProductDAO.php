@@ -18,6 +18,8 @@ class ProductDAO extends DAO
     private const PRICE_KEY = 'price';
     private const OFFER_KEY = 'offer';
 
+    private const FILTER_CRITERIA_FIREARM_NAME_KEY = 'name';
+    private const FILTER_CRITERIA_FIREARM_NAME_VALUE = ':name';
     private const FILTER_CRITERIA_FIREARM_TYPE_KEY = 'filterCriteriaFirearmType';
     private const FILTER_CRITERIA_FIREARM_TYPE_VALUE = ':category_id';
     private const FILTER_CRITERIA_FIREARM_MANUFACTURER_KEY = 'filterCriteriaFirearmManufacturer';
@@ -52,6 +54,11 @@ class ProductDAO extends DAO
                         array_push($allFilters, $manufacturerFilter);
                     }
                     break;
+                case self::FILTER_CRITERIA_FIREARM_NAME_KEY: {
+                        $value = self::FILTER_CRITERIA_FIREARM_NAME_VALUE;
+                        $manufacturerFilter = "p.name LIKE {$value}";
+                        array_push($allFilters, $manufacturerFilter);
+                    }
             }
         }
 
@@ -85,8 +92,8 @@ class ProductDAO extends DAO
                 break;
         }
 
-        $query =
-            "SELECT
+        $query = <<<HTML
+            SELECT
             p.id AS id,
             p.name AS name,
             p.description AS description,
@@ -101,8 +108,9 @@ class ProductDAO extends DAO
             {$filtersStatement}
         ORDER BY
             $orderValue
-        ";
-        
+        ;
+        HTML;
+
         //  Prepare statement
         $statement = $this->m_DatabaseProxy->prepare($query);
 
@@ -114,6 +122,17 @@ class ProductDAO extends DAO
                 case self::FILTER_CRITERIA_FIREARM_MANUFACTURER_KEY:
                     $statement->bindValue(self::FILTER_CRITERIA_FIREARM_MANUFACTURER_VALUE, $filterValue);
                     break;
+                case self::FILTER_CRITERIA_FIREARM_NAME_KEY: {
+                        $nameLength = strlen($filterValue);
+                        $value = '%';
+
+                        for ($i = 0; $i < $nameLength; $i++) {
+                            $value .= $filterValue[$i] . '%';
+                        }
+
+                        $statement->bindValue(self::FILTER_CRITERIA_FIREARM_NAME_VALUE, $value);
+                        break;
+                    }
             }
         }
 
