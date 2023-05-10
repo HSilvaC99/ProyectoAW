@@ -9,11 +9,10 @@ const onTimerExpired = () => {
 
     let name = searchbar.value;
 
-    if (name === '') {
-        removeSearchFilter('name');
-    }
+    if (name === '')
+        removeSearchFilterAsync('name');
     else
-        applySearchFilter('name', name);
+        applySearchFilterAsync('name', name);
 }
 
 function onProductSearchbarContentChanged() {
