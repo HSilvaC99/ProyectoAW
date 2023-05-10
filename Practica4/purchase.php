@@ -20,6 +20,19 @@ $cartCount = 0;
 $addressDAO = new AddressDAO;
 $userAddressDAO = new UserAddressDAO;
 
+if (!isset($_SESSION['user'])){ ?>
+
+<body>
+<div class="container">
+<div class="flex-fill p-3">
+  <div class="alert alert-warning">
+    Debes identificarte para acceder a esta página.
+  </div></div></div>
+</body>
+    
+<?php
+} else {
+
 $uID = $_SESSION["user"]->getID();
 
 $addr = $addressDAO->read();
@@ -29,8 +42,6 @@ $results = $addressDAO->getAddressForUser($uID);
 if (isset($_GET["subtotal"])){
     $subtotal = $_GET["subtotal"];
     $my_array = array();
-    //$_SESSION["SELECCION_CESTA"];
-    //$my_array = $userProductDAO->getUserCart($uID);
     $my_array = $_SESSION["SELECCION_CESTA"];
 
     $cartCount = count($my_array);
@@ -244,6 +255,7 @@ ob_start();
 </div>
 
 <?php
+}
 //end:
 $content = ob_get_clean();
 require_once INCLUDES_ROOT . '/templates/default_template.php';
@@ -254,4 +266,18 @@ require_once INCLUDES_ROOT . '/templates/default_template.php';
         font-size: 24px;
         padding: 12px 24px;
     }
+
+    
+ 
+  
+
+  div.alert {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10vh;
+
+}
+
+
 </style>

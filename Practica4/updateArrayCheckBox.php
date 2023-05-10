@@ -12,23 +12,27 @@ $data = $_REQUEST;
 
 // Actualiza la cantidad del producto en el carrito
 $uID = isset($_SESSION["user"]) ? $_SESSION["user"]->getID() : -1;
-
+$check = $data['check'];
 
 // Si la actualización fue exitosa, calcula el nuevo subtotal y envía una respuesta JSON
 $my_array = isset($_SESSION["user"]) ? $userProductDAO->getUserCart($uID) : $_SESSION["carritoTemporal"];
-
+unset($_SESSION["SELECCION_CESTA"]);
 //Solo 1 elemento
 if ($data['option'] == 1){
     foreach($my_array as $prod){
-        if($prod->getID2() == $data['product_id']){
-            if (!empty($_SESSION["SELECCION_CESTA"] )){
-                $index = count($_SESSION["SELECCION_CESTA"] );
-                $_SESSION["SELECCION_CESTA"] [$index] = $prod;
-    
+        if($prod->getID2() == $data['product_id'] ){
+            if ($check){
+                
+                if (!empty($_SESSION["SELECCION_CESTA"] )){
+                    $index = count($_SESSION["SELECCION_CESTA"] );
+                    $_SESSION["SELECCION_CESTA"] [$index] = $prod;
+                    
+                }else
+                    $_SESSION["SELECCION_CESTA"] [0] = $prod;
+
             }else{
                 
-                $_SESSION["SELECCION_CESTA"] [0] = $prod;
-    
+                 
             }
         }
     }
@@ -40,7 +44,7 @@ if ($data['option'] == 1){
 
 
 
-$response = array('success' => true, 'quantity'=> count($_SESSION["SELECCION_CESTA"]));
+$response = array('success' => true, 'quantity'=> count($_SESSION["SELECCION_CESTA"]), 'check' => $check);
 echo json_encode($response);
 
 
