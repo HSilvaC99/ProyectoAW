@@ -14,7 +14,6 @@ function selectOneForPurchase(productID){
         type: 'GET',
         success: function(response) {
             
-            console.log(response["check"]);
             document.getElementById('sesion').textContent = response["quantity"];
             
         },
@@ -34,7 +33,7 @@ function selectOneForPurchase(productID){
 function selectPurchase(){
     $.ajax({
         url: "updateArrayCheckBox.php",
-        data: {"option":2},
+        data: {"option":2, "check": 0},
         type: 'GET',
         success: function(response) {
             document.getElementById('sesion').textContent = response["quantity"];
@@ -54,7 +53,7 @@ function selectPurchase(){
 function deselectPurchase(){
     $.ajax({
         url: "updateArrayCheckBox.php",
-        data: { "option":3},
+        data: { "option":3, "check": 0},
         type: 'GET',
         success: function(response) {
             document.getElementById('sesion').textContent = 0;
@@ -95,6 +94,9 @@ function verifyPurchase(uID, subtotal,event) {
         }, 2000);
         return ;
     }
+    checkboxes.forEach(function(checkbox) {
+        checkbox.checked = false;
+      });
     window.location.href = `purchase.php?subtotal=${subtotal}`;
         
     

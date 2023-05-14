@@ -109,13 +109,7 @@ class UserProductDAO extends DAO
 
         return $statement->execute();
     }
-
-
-
     
-
-    
-
     protected function createDTOFromArray($array): DTO
     {
 

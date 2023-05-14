@@ -45,8 +45,6 @@ if (isset($_GET["subtotal"])){
     $my_array = $_SESSION["SELECCION_CESTA"];
 
     $cartCount = count($my_array);
-   
-
 
 } else {
     $productID = $_GET["productID"];

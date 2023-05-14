@@ -61,5 +61,17 @@ class WishListsUsersDAO extends DAO
 
         return $results;
     }
+    
+    //To do
+    public function deleteList( $listID, $userID): bool
+    {
+        $query = 'DELETE FROM wish_lists_users WHERE  listID = :listID AND userID = :userID ';
+
+        $statement = $this->m_DatabaseProxy->prepare($query);
+        $statement->bindParam(':userID', $userID);
+        $statement->bindParam(':listID', $listID);
+
+        return $statement->execute();
+    }
 
 }

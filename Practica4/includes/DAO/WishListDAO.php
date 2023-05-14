@@ -45,4 +45,33 @@ class WishListDAO extends DAO
         return $dtoArray;
     }
 
+    public function getListName($id)
+    {
+        $query = "SELECT * FROM wish_list WHERE id = :id";
+        $statement = $this->m_DatabaseProxy->prepare($query);
+
+        $statement->bindValue(':id', $id);
+        $statement->execute();
+
+        $results = array();
+
+        foreach ($statement as $result)
+            array_push($results, $this->createDTOFromArray($result));
+            
+        $name = $results[0]->getName();
+        return $name;
+    }
+
+    public function deleteList($id): bool
+    {
+        $query = 'DELETE FROM wish_list WHERE id = :id';
+
+        $statement = $this->m_DatabaseProxy->prepare($query);
+        $statement->bindParam(':id', $id);
+
+        return $statement->execute();
+    }
+
+    
+
 }

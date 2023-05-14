@@ -16,7 +16,7 @@ $check = $data['check'];
 
 // Si la actualización fue exitosa, calcula el nuevo subtotal y envía una respuesta JSON
 $my_array = isset($_SESSION["user"]) ? $userProductDAO->getUserCart($uID) : $_SESSION["carritoTemporal"];
-unset($_SESSION["SELECCION_CESTA"]);
+
 //Solo 1 elemento
 if ($data['option'] == 1){
     foreach($my_array as $prod){
@@ -32,7 +32,10 @@ if ($data['option'] == 1){
 
             }else{
                 
-                 
+                $clave = array_search($prod,$my_array); // Encontrar la clave del valor
+                if ($clave !== false)
+                    unset($_SESSION["SELECCION_CESTA"][$clave]); // Eliminar la clave del array
+                break;
             }
         }
     }
@@ -42,9 +45,11 @@ if ($data['option'] == 1){
     unset($_SESSION["SELECCION_CESTA"]);
 }
 
+$count = 0;
+if (!empty($_SESSION["SELECCION_CESTA"]))
+    $count = count($_SESSION["SELECCION_CESTA"]);
 
-
-$response = array('success' => true, 'quantity'=> count($_SESSION["SELECCION_CESTA"]), 'check' => $check);
+$response = array('success' => true, 'quantity'=> $count);
 echo json_encode($response);
 
 

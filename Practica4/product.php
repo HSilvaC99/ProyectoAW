@@ -4,6 +4,8 @@ use es\ucm\fdi\aw\DAO\ProductDAO;
 use es\ucm\fdi\aw\DAO\ReviewDAO;
 use es\ucm\fdi\aw\DAO\UserReviewDAO;
 use es\ucm\fdi\aw\DAO\UserDAO;
+use es\ucm\fdi\aw\DAO\WishListsUsersDAO;
+use es\ucm\fdi\aw\DAO\WishListDAO;
 
 require_once 'includes/config.php';
 
@@ -14,8 +16,11 @@ $productID = $_GET["productID"];
 //Products
 $productDAO = new ProductDAO;
 $user = new UserDAO;
+$wishListDAO=new WishListDAO;
+$listasUsuario=new WishListsUsersDAO;
 $role = "guest";
 if (isset($_SESSION["user"])) {
+    $arrayOfLists= $listasUsuario->getUserLists($_SESSION["user"]->getID());
     $role = $user->getUserRoles($_SESSION["user"]->getID())[0]->getRoleName();
 }
 
@@ -91,7 +96,7 @@ $error
         <div class="col col-md-6 d-flex flex-col">
             <img class="img-fluid object-fit-contain" src="<?= $productsPath . $product->getImgName(); ?>">
         </div>
-        <div class="col col-md-6 ">
+        <div class="col col-md-6 border">
             <div class="d-flex justify-content-start">
                 <h3> <?= $product->getName() ?> </h3>
             </div>
@@ -120,12 +125,45 @@ $error
             <div class="buttons py-3">
                 <!-- AQUI HAY QUE HACER OTRO FORM PARA EL BOTON DE COMPRAR -->
                 <a class="btn btn-primary " id="buy-now" href="purchase.php?productID=<?= $productID ?>">Comprar ya</a>
-                <?php if (!isset($_SESSION["user"])) : ?>
-                    <?= ($cartForm = new es\ucm\fdi\aw\forms\CartForm(null, $productID))->handleForm(); ?>
-                <?php else : ?>
-                    <?= ($cartForm = new es\ucm\fdi\aw\forms\CartForm($_SESSION["user"]->getID(), $productID))->handleForm(); ?>
-                <?php endif ?>
+                <div class="row">
+                    <div class="col-md-5">
+                        <?php if (!isset($_SESSION["user"])) : ?>
+                            <?= ($cartForm = new es\ucm\fdi\aw\forms\CartForm(null, $productID))->handleForm(); ?>
+                        <?php else : ?>
+                            <?= ($cartForm = new es\ucm\fdi\aw\forms\CartForm($_SESSION["user"]->getID(), $productID))->handleForm(); ?>
+                        <?php endif ?>
+
+                    </div>
+                    <?php if (isset($_SESSION["user"])) : ?>
+                        <div class="col-md-7 ">
+                            <div class="row">
+                                <div class="col-md-8 mt-2 ">
+                                    <div class="dropdown">
+                                        <span>Selecciona lista de deseos: </span>
+                                        <button class="btn btn-outline-secondary rounded-pill shadow border dropdown-toggle w-100" id="boton" type="button" data-bs-toggle="dropdown" aria-expanded="false">Lista de deseos</button>
+                                        <ul class="dropdown-menu" id="lista-deseos">
+                                            <?php foreach($arrayOfLists as $listas) : ?>
+                                            <?php $wishListDTO = $wishListDAO->read($listas->getListID())[0]; ?>
+                                            <li><a class="dropdown-item" href="#" data-list-id="<?= $wishListDTO->getID() ?>"><?= $wishListDTO->getName() ?></a></li>
+                                            <?php endforeach ?>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mt-2 ">
+                                    <span>Añadir: </span>
+                                    <button class="btn rounded-pill shadow border heart-button">
+                                        ❤️
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <span style="display:none" id="prodID"><?= $productID ?></span>
+                    <?php endif ?>
+
+                </div>
             </div>
+            
+
         </div>
         <div class="mt-5 py-2">
             <?= $product->getDescription() ?>
@@ -158,3 +196,5 @@ $error
 $content = ob_get_clean();
 require_once PROJECT_ROOT . '/includes/templates/default_template.php';
 ?>
+
+<script src="js/wishList.js"></script>

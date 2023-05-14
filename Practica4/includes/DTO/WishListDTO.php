@@ -30,6 +30,11 @@ class WishListDTO extends DTO
         return $this->m_Name;
     }
 
+    public function setName($name)
+    {
+        $this->m_Name = $name;
+    }
+
     public function getType()
     {
         return $this->m_Type;

@@ -37,7 +37,7 @@ class DesiredProductsDAO extends DAO
     {
         $dtoArray = array(
             self::LIST_ID_KEY => $dto->getListID(),
-            self::USER_ID_KEY => $dto->getProductID(),
+            self::PRODUCT_ID_KEY => $dto->getProductID(),
             self::DATE_KEY => $dto->getDate()
             
         );
@@ -64,6 +64,24 @@ class DesiredProductsDAO extends DAO
         return $results;
 
 
+    }
+    
+    public function setProdListProds($listID,$productID){
+        $date = date("Y-m-d H:i:s");
+        $prodDTO = new DesiredProductsDTO($listID,$productID,$date);
+        $this->create($prodDTO);
+    }
+
+    public function deleteProdListProds($listID,$productID){
+
+        
+        $query = "DELETE FROM desired_products WHERE listID = :listID AND productID = :productID";
+
+        $statement = $this->m_DatabaseProxy->prepare($query);
+        $statement->bindParam(':listID',$listID);
+        $statement->bindParam(':productID',$productID);
+
+        return $statement->execute();
     }
 
 }
