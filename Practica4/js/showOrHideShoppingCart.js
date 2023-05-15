@@ -8,4 +8,3 @@ function hideCart() {
 
 document.getElementById('btn-carrito').onmouseover = showCart;
 document.getElementById('btn-carrito').onmouseleave = hideCart;
-

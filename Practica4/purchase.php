@@ -180,7 +180,7 @@ ob_start();
                             <form method="post">
                                 <input type="hidden" name="dir" id="dir-input">
                                 <!-- Agrega otros campos de entrada aquí -->
-                                <button type="submit" name="buy" class="btn btn-success" href="purchase.php?medoto=<?= $metodo ?>">Comprar</button>
+                                <button type="submit" name="buy" class="btn btn-success" href="purchase.php?metodo=<?= $metodo ?>">Comprar</button>
                             </form>
                         </div>
                     </div>

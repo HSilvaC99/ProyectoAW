@@ -84,4 +84,23 @@ class AddressDAO extends DAO
 
         return $statement->fetchAll();
     }
+
+    public function insertAddress($street, $floor, $zip, $province, $city, $state): bool
+    {
+        
+        $query = 'INSERT addresses SET street = :street, floor = :floor, zip = :zip, province = :province, city = :city, country = :state' ;
+        $statement = $this->m_DatabaseProxy->prepare($query);
+        $statement->bindValue(':street', $street);
+        $statement->bindValue(':floor', $floor);
+        $statement->bindValue(':zip', $zip);
+        $statement->bindValue(':province', $province);
+        $statement->bindValue(':city', $city);
+        $statement->bindValue(':state', $state);
+
+        return $statement->execute();
+    }
+
+    public function getLastInsertID() {
+        return $this->m_DatabaseProxy->lastInsertId();
+    }
 }

@@ -15,7 +15,6 @@ function selectOneForPurchase(productID){
         success: function(response) {
             
             document.getElementById('sesion').textContent = response["quantity"];
-            
         },
         error: function(jqXHR, textStatus, errorThrown) {
           console.log(textStatus, errorThrown);
@@ -98,8 +97,4 @@ function verifyPurchase(uID, subtotal,event) {
         checkbox.checked = false;
       });
     window.location.href = `purchase.php?subtotal=${subtotal}`;
-        
-    
-    // Continuar con la compra
-    
 }
