@@ -2,11 +2,10 @@
 
 namespace es\ucm\fdi\aw\DAO;
 
-require_once 'includes/config.php';
+require_once dirname(__DIR__).'/config.php';
 
 use es\ucm\fdi\aw\Application;
 use es\ucm\fdi\aw\DTO\DTO;
-use PDO;
 
 //  Note: possible SQL injection when using parameters. Investigate
 abstract class DAO
