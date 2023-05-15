@@ -26,12 +26,12 @@ class WishListDAO extends DAO
     //  Methods   
     protected function createDTOFromArray($array): DTO
     {
-        
+
         $id = $array[self::LIST_ID_KEY];
         $name = $array[self::LIST_NOMBRE_KEY];
         $type = $array[self::LIST_TIPO_KEY];
 
-        return new WishListDTO($id,$name,$type);
+        return new WishListDTO($id, $name, $type);
     }
     protected function createArrayFromDTO($dto): array
     {
@@ -41,7 +41,7 @@ class WishListDAO extends DAO
             self::LIST_TIPO_KEY => $dto->getType()
         );
 
-       
+
         return $dtoArray;
     }
 
@@ -57,7 +57,7 @@ class WishListDAO extends DAO
 
         foreach ($statement as $result)
             array_push($results, $this->createDTOFromArray($result));
-            
+
         $name = $results[0]->getName();
         return $name;
     }
@@ -71,7 +71,4 @@ class WishListDAO extends DAO
 
         return $statement->execute();
     }
-
-    
-
 }
