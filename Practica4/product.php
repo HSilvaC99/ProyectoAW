@@ -99,6 +99,8 @@ $error
             <div class="d-flex justify-content-start">
                 <h3> <?= $product->getName() ?> </h3>
             </div>
+            
+
             <hr class="mt-2">
             <?php if ($product->getOffer() != 0) :
                 if ($product->getOffer() == 100) : ?>
@@ -206,4 +208,3 @@ $error
 $content = ob_get_clean();
 require_once PROJECT_ROOT . '/includes/templates/default_template.php';
 ?>
-

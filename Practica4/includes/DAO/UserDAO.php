@@ -82,7 +82,7 @@ class UserDAO extends DAO
         return $statement->execute();
     }
 
-    public function createDTOFromArray($array): DTO
+    protected function createDTOFromArray($array): DTO
     {
         $id = $array[self::ID_KEY] ?? -1;
         $name = $array[self::NAME_KEY];
@@ -92,7 +92,7 @@ class UserDAO extends DAO
 
         return new UserDTO($id, $name, $surname, $email, $passwordHash);
     }
-    public function createArrayFromDTO($dto): array
+    protected function createArrayFromDTO($dto): array
     {
         $dtoArray = array(
             self::NAME_KEY => $dto->getName(),

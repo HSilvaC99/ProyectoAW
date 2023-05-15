@@ -26,8 +26,8 @@ class OrderDAO extends DAO
     }
 
     //  Methods
-    
-    public function createDTOFromArray($array): DTO
+
+    protected function createDTOFromArray($array): DTO
     {
         $id = $array[self::ID_KEY];
         $state = $array[self::STATE_KEY];
@@ -39,7 +39,7 @@ class OrderDAO extends DAO
 
         return new OrderDTO($id,  $state, $date, $amount, $quantity, $payment, $address);
     }
-    public function createArrayFromDTO($dto): array
+    protected function createArrayFromDTO($dto): array
     {
         $dtoArray = array(
             self::STATE_KEY => $dto->getState(),
@@ -51,7 +51,7 @@ class OrderDAO extends DAO
 
         );
 
-        
+
         if ($dto->getID() != -1)
             $dtoArray[self::ID_KEY] = $dto->getID();
 
@@ -72,8 +72,8 @@ class OrderDAO extends DAO
         return $statement->fetchAll();
     }
 
-    
-    
+
+
     public function cancelOrder($orderID): bool
     {
         $query = 'UPDATE orders SET state = "cancelado" WHERE id = :orderID AND state != "cancelado"';
@@ -97,7 +97,7 @@ class OrderDAO extends DAO
 
     public function InsertOrder($price, $metodo, $dir, $date): bool
     {
-        $query = 'INSERT orders SET state = "pendiente", date = :date, amount = :price, quantity = "1", paymentMethod = :metodo, address= :dir' ;
+        $query = 'INSERT orders SET state = "pendiente", date = :date, amount = :price, quantity = "1", paymentMethod = :metodo, address= :dir';
         $statement = $this->m_DatabaseProxy->prepare($query);
         $statement->bindValue(':price', $price);
         $statement->bindValue(':metodo', $metodo);
@@ -108,8 +108,49 @@ class OrderDAO extends DAO
         return $statement->execute();
     }
 
+    public function InsertOrderCard($price, $metodo, $dir, $date): bool
+    {
+        $query = 'INSERT orders SET state = "en proceso", date = :date, amount = :price, quantity = "1", paymentMethod = :metodo, address= :dir' ;
+        $statement = $this->m_DatabaseProxy->prepare($query);
+        $statement->bindValue(':price', $price);
+        $statement->bindValue(':metodo', $metodo);
+        $statement->bindValue(':dir', $dir);
+        $statement->bindValue(':date', $date);
+
+
+        return $statement->execute();
+    }
+
+    public function InsertOrderCart($price, $metodo, $dir, $date, $cartCount): bool
+    {
+        
+        $query = 'INSERT orders SET state = "pendiente", date = :date, amount = :price, quantity = :cartCount, paymentMethod = :metodo, address= :dir' ;
+        $statement = $this->m_DatabaseProxy->prepare($query);
+        $statement->bindValue(':price', $price);
+        $statement->bindValue(':metodo', $metodo);
+        $statement->bindValue(':dir', $dir);
+        $statement->bindValue(':date', $date);
+        $statement->bindValue(':cartCount', $cartCount);
+
+        return $statement->execute();
+    }
+
+    public function InsertOrderCartCard($price, $metodo, $dir, $date, $cartCount): bool
+    {
+        
+        $query = 'INSERT orders SET state = "en proceso", date = :date, amount = :price, quantity = :cartCount, paymentMethod = :metodo, address= :dir' ;
+        $statement = $this->m_DatabaseProxy->prepare($query);
+        $statement->bindValue(':price', $price);
+        $statement->bindValue(':metodo', $metodo);
+        $statement->bindValue(':dir', $dir);
+        $statement->bindValue(':date', $date);
+        $statement->bindValue(':cartCount', $cartCount);
+
+        return $statement->execute();
+    }
+
+
     public function getLastInsertID() {
         return $this->m_DatabaseProxy->lastInsertId();
     }
-    
 }

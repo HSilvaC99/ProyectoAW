@@ -18,14 +18,14 @@ class ProductCategoryDAO extends DAO
     }
 
     //  Methods
-    public function createDTOFromArray($array): DTO
+    protected function createDTOFromArray($array): DTO
     {
         $productID = $array[self::PRODUCT_ID_KEY];
         $categoryID = $array[self::CATEGORY_ID_KEY];
 
         return new ProductCategoryDTO($productID, $categoryID);
     }
-    public function createArrayFromDTO($dto): array
+    protected function createArrayFromDTO($dto): array
     {
         return array(
             self::PRODUCT_ID_KEY => $dto->getProductID(),

@@ -70,7 +70,7 @@ if (count($my_array) == 0) { ?>
                 <p id="price-unity-<?= $producto->getID() ?>" style="display:none"><?= $producto->getOfferPrice() ?></p>
 
                 <td>
-                 
+                
                 </td>
 
               </tr>

@@ -41,6 +41,7 @@ if (isset($_SESSION["user"])) {
 	<script defer src="js/jquery.cookie.js"></script>
 	<script defer src="js/sessionCookie.js"></script>
 
+	
 	<title><?= $title ?></title>
 </head>
 
