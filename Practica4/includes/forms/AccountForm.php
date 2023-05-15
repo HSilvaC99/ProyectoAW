@@ -3,6 +3,8 @@
 namespace es\ucm\fdi\aw\forms;
 
 use es\ucm\fdi\aw\DAO\UserDAO;
+use es\ucm\fdi\aw\DAO\AddressDAO;
+use es\ucm\fdi\aw\DAO\UserAddressDAO;
 
 
 require_once 'includes/config.php';
@@ -66,6 +68,27 @@ class AccountForm extends Form
             $success = false;
             return;
         }
+
+        $addressDAO = new AddressDAO();
+        $street = $data["street"];
+        $floor = $data["floor"];
+        $zip = $data["zip"];
+        $province = $data["province"];
+        $city = $data["city"];
+        $state = $data["state"];
+        if (!$addressDAO->insertAddress($street, $floor, $zip, $province, $city, $state)){
+            $this->m_Errors['bad_update'] = 'Ha ocurrido un error inesperado al actualizar el usuario.';
+            $success = false;
+            return;
+        }
+
+        $userAddressDAO = new UserAddressDAO();
+        $userID = $this->m_userID;
+        $address_id = $addressDAO->getLastInsertID();
+        $userAddressDAO->insert($userID, $address_id);
+
+         
+
     }
 
     protected function generateFormFields($data)
@@ -87,9 +110,6 @@ class AccountForm extends Form
                 HTML_ERROR;
             }
         }
-
-
-
 
 
         return <<<HTML
@@ -124,7 +144,50 @@ class AccountForm extends Form
 
         <hr class="my-4">
 
+        <h1 class="mb-4 text-center">Añadir nueva dirección</h1>
+
+        <hr class="my-4">
+
+        <div class="row m-3 p-4">
+            <div class="col-6 my-1">
+                <label for="street" class="form-label">Calle</label>
+                <input type="text" class="form-control" name="street" required>
+            </div>
+            <div class="col-6 my-1">
+                <label for="floor" class="form-label">Piso</label>
+                <input type="text" class="form-control" name="floor" required>
+            </div>
+            <div class="col-6 my-1">
+                <label for="zip" class="form-label">Código postal</label>
+                <input type="number" class="form-control" name="zip" required>
+            </div>
+            <div class="col-6 my-1">
+                <label for="province" class="form-label">Provincia</label>
+                <input type="text" class="form-control" name="province" required>
+            </div>
+            <div class="col-6 my-1">
+                <label for="city" class="form-label">Ciudad</label>
+                <input type="text" class="form-control" name="city" required>
+            </div>
+            <div class="col-6 my-1">
+                <label for="state" class="form-label">País</label>
+                <input type="text" class="form-control" name="state" required>
+            </div>
+
+            
+        </div>
+
         <button class="w-100 btn btn-primary btn-lg" type="submit">Guardar Cambios</button>
+
+        <hr class="my-4">
+
+        <h1 class="mb-4 text-center">Direcciones de envío</h1>
+
+        <hr class="my-4">
+  
+        
         HTML;
+
+        
     }
 }

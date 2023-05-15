@@ -16,11 +16,11 @@ $subtotal = 0;
 $my_array = array();
 $_SESSION["SELECCION_CESTA"] =  array();
 if (isset($_SESSION["user"])) {
-  $uID = $_SESSION["user"]->getID();
-  $my_array = $usersDAO->getUserCart($uID);
+    $uID = $_SESSION["user"]->getID();
+    $my_array = $usersDAO->getUserCart($uID);
 } else if (!empty($_SESSION["carritoTemporal"])) { //Hay que crear el carrito a corde al usuario sin registrar
-  $uID = -1;
-  $my_array = $_SESSION["carritoTemporal"];
+    $uID = -1;
+    $my_array = $_SESSION["carritoTemporal"];
 }
 ?>
 <div class="container text-center shadow p-4" id="containter" style="display: none;">
@@ -178,3 +178,10 @@ $content = ob_get_clean();
 
 require_once PROJECT_ROOT . '/includes/templates/default_template.php';
 ?>
+
+<style>
+  #buy-now {
+    font-size: 24px;
+    padding: 12px 24px;
+  }
+</style>

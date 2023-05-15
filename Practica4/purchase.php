@@ -29,8 +29,6 @@ $results = $addressDAO->getAddressForUser($uID);
 if (isset($_GET["subtotal"])){
     $subtotal = $_GET["subtotal"];
     $my_array = array();
-    //$_SESSION["SELECCION_CESTA"];
-    //$my_array = $userProductDAO->getUserCart($uID);
     $my_array = $_SESSION["SELECCION_CESTA"];
 
     $cartCount = count($my_array);
@@ -171,7 +169,7 @@ ob_start();
                             <form method="post">
                                 <input type="hidden" name="dir" id="dir-input">
                                 <!-- Agrega otros campos de entrada aquí -->
-                                <button type="submit" name="buy" class="btn btn-success" href="purchase.php?medoto=<?= $metodo ?>">Comprar</button>
+                                <button type="submit" name="buy" class="btn btn-success" href="purchase.php?metodo=<?= $metodo ?>">Comprar</button>
                             </form>
                         </div>
                     </div>

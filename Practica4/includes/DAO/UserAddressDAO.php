@@ -46,4 +46,14 @@ class UserAddressDAO extends DAO
 
         return $statement->execute();
     }
+
+    /*public function deleteAddress($addressID): bool
+    {
+        $query = 'DELETE FROM users_addresses WHERE addressID = :addressID' ;
+        $statement = $this->m_DatabaseProxy->prepare($query);
+        $statement->bindValue(':addressID', $addressID);
+
+
+        return $statement->execute();
+    }*/
 }
