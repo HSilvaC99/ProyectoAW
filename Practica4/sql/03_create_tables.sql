@@ -2,11 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: May 08, 2023 at 05:22 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.0.25
-
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 14-05-2023 a las 20:22:37
+-- Versión del servidor: 10.4.27-MariaDB
+-- Versión de PHP: 8.2.0
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -95,7 +94,30 @@ INSERT INTO `categories` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `events`
+-- Estructura de tabla para la tabla `desired_products`
+--
+
+CREATE TABLE `desired_products` (
+  `listID` int(11) NOT NULL,
+  `productID` int(11) NOT NULL,
+  `date` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `desired_products`
+--
+
+INSERT INTO `desired_products` (`listID`, `productID`, `date`) VALUES
+(1, 1, '2023-05-13 19:40:18'),
+(2, 1, '2023-05-13 19:02:32'),
+(3, 1, '2023-05-13 19:12:24'),
+(3, 7, '2023-05-10 17:34:03'),
+(6, 1, '2023-05-13 19:08:59');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `events`
 --
 
 CREATE TABLE `events` (
@@ -206,10 +228,12 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `state`, `date`, `amount`, `quantity`, `paymentMethod`, `address`) VALUES
-(64, 'en proceso', '2023-04-28', 668.11, 1, 'Tarjeta Credito', ''),
-(65, 'pendiente', '2023-04-28', 668.11, 1, 'Transferencia Bancaria', ''),
-(66, 'en proceso', '2023-04-28', 668.11, 1, 'Tarjeta Credito', ''),
-(67, 'pendiente', '2023-04-28', 668.11, 0, 'Transferencia Bancaria', '');
+(64, 'en proceso', '2023-04-28', '668.11', 1, 'Tarjeta Credito', ''),
+(65, 'pendiente', '2023-04-28', '668.11', 1, 'Transferencia Bancaria', ''),
+(66, 'en proceso', '2023-04-28', '668.11', 1, 'Tarjeta Credito', ''),
+(67, 'pendiente', '2023-04-28', '668.11', 0, 'Transferencia Bancaria', ''),
+(68, 'cancelado', '2023-05-13', '6.68', 1, 'Tarjeta Credito', ''),
+(69, 'cancelado', '2023-05-13', '6.68', 1, 'Bizum', '');
 
 -- --------------------------------------------------------
 
@@ -250,6 +274,7 @@ CREATE TABLE `products` (
 --
 -- Dumping data for table `products`
 --
+
 
 INSERT INTO `products` (`id`, `name`, `description`, `manufactureYear`, `imgName`, `price`, `offer`) VALUES
 (1, 'Colt M4A1 5.56x45', 'La carabina Colt M4A1 es una variante completamente automática de la carabina M4 básica y fue diseñada principalmente para uso en operaciones especiales. Sin embargo, EE. UU. El Comando de Operaciones Especiales ( USSOCOM ) pronto adoptará el M4A1 para casi todas las unidades de operaciones especiales, seguido más tarde por la introducción general del M4A1 en servicio con los EE. UU. Ejército y Cuerpo de Marines.', 2017, 'm4a1.jpg', '668.11', 0),
@@ -492,7 +517,9 @@ INSERT INTO `users_orders` (`userID`, `orderID`) VALUES
 (15, 64),
 (15, 65),
 (15, 66),
-(15, 67);
+(15, 67),
+(12, 68),
+(12, 69);
 
 -- --------------------------------------------------------
 
@@ -505,6 +532,14 @@ CREATE TABLE `users_products` (
   `productID` int(11) NOT NULL,
   `amount` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `users_products`
+--
+
+INSERT INTO `users_products` (`userID`, `productID`, `amount`) VALUES
+(12, 1, 2),
+(12, 8, 4);
 
 -- --------------------------------------------------------
 
@@ -541,6 +576,54 @@ INSERT INTO `users_roles` (`userID`, `roleID`) VALUES
 (12, 2),
 (13, 2);
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `wish_list`
+--
+
+CREATE TABLE `wish_list` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(256) NOT NULL,
+  `tipo` int(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `wish_list`
+--
+
+INSERT INTO `wish_list` (`id`, `nombre`, `tipo`) VALUES
+(1, 'Fusiles de asalto', 1),
+(2, 'Cumpleaños', 1),
+(3, 'Navidad', 1),
+(4, 'Semana Santa', 2),
+(6, 'San Valentin', 1),
+(7, 'Fusiles', 1),
+(8, 'Fusiles', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `wish_lists_users`
+--
+
+CREATE TABLE `wish_lists_users` (
+  `listID` int(11) NOT NULL,
+  `userID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `wish_lists_users`
+--
+
+INSERT INTO `wish_lists_users` (`listID`, `userID`) VALUES
+(1, 12),
+(2, 12),
+(3, 12),
+(6, 12),
+(7, 12),
+(8, 12);
+
 --
 -- Indexes for dumped tables
 --
@@ -570,7 +653,14 @@ ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `events`
+-- Indices de la tabla `desired_products`
+--
+ALTER TABLE `desired_products`
+  ADD PRIMARY KEY (`listID`,`productID`),
+  ADD KEY `productID` (`productID`);
+
+--
+-- Indices de la tabla `events`
 --
 ALTER TABLE `events`
   ADD PRIMARY KEY (`id`);
@@ -719,7 +809,20 @@ ALTER TABLE `users_roles`
   ADD KEY `userID` (`userID`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- Indices de la tabla `wish_list`
+--
+ALTER TABLE `wish_list`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `wish_lists_users`
+--
+ALTER TABLE `wish_lists_users`
+  ADD PRIMARY KEY (`listID`,`userID`),
+  ADD KEY `userID` (`userID`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
@@ -762,7 +865,7 @@ ALTER TABLE `manufacturers`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `payment_method`
@@ -811,7 +914,14 @@ ALTER TABLE `users`
 --
 
 --
--- Constraints for table `events_users`
+-- Filtros para la tabla `desired_products`
+--
+ALTER TABLE `desired_products`
+  ADD CONSTRAINT `desired_products_ibfk_1` FOREIGN KEY (`listID`) REFERENCES `wish_list` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `desired_products_ibfk_2` FOREIGN KEY (`productID`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `events_users`
 --
 ALTER TABLE `events_users`
   ADD CONSTRAINT `events_users_ibfk_1` FOREIGN KEY (`eventID`) REFERENCES `events` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -889,6 +999,13 @@ ALTER TABLE `users_questions`
 ALTER TABLE `users_roles`
   ADD CONSTRAINT `users_roles_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `users_roles_ibfk_2` FOREIGN KEY (`roleID`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `wish_lists_users`
+--
+ALTER TABLE `wish_lists_users`
+  ADD CONSTRAINT `wish_lists_users_ibfk_1` FOREIGN KEY (`listID`) REFERENCES `wish_list` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `wish_lists_users_ibfk_2` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

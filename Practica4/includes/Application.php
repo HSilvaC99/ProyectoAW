@@ -28,7 +28,7 @@ class Application
 
         return self::$s_Instance;
     }
-
+  
     public function searchProducts(array $filters, string $orderBy): array
     {
         $productDAO = new ProductDAO();

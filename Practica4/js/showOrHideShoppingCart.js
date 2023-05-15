@@ -6,5 +6,5 @@ function hideCart() {
     document.getElementById("cart-dropdown").classList.remove("show");
 }
 
-document.querySelector('.btn-outline-secondary').onmouseover = showCart;
-document.querySelector('.btn-outline-secondary').onmouseleave = hideCart;
+document.getElementById('btn-carrito').onmouseover = showCart;
+document.getElementById('btn-carrito').onmouseleave = hideCart;

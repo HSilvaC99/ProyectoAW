@@ -51,7 +51,7 @@ class UserProductDAO extends DAO
       
         return $userProductDTO;
     }
-
+  
     public function deleteCart(): bool
     {
         $query = 'DELETE FROM users_products';

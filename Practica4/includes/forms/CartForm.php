@@ -39,8 +39,7 @@ class CartForm extends Form
     {   
         echo "<pre>";
         if($this->userID == null){
-            //Hay que añadir el usuario como guest y añadirle los productos a su carrito
-            $_SESSION["guest"] = "dragosMola";
+            
             
             if (empty($_SESSION["carritoTemporal"])){
                 $_SESSION["carritoTemporal"] = array();
