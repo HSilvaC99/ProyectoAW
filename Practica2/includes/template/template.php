@@ -11,11 +11,11 @@
 </head>
 <body>
 <div>
-  <?php require 'includes/common/navbar.php' ?>
+  <?php require 'includes/comun/navbar.php' ?>
   <main>
 	  <?= $content ?>
   </main>
-	<?php require 'includes/common/footer.php' ?>
+	<?php require 'includes/comun/footer.php' ?>
 </div>
 </body>
 </html>

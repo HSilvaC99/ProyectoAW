@@ -33,6 +33,9 @@ $user = new UserDAO;
 $reviewDAO = new ReviewDAO;
 $reviewDTOResults = $reviewDAO->getProductReviews($productID);
 
+//filtro Reviews
+//$filterScore = isset($_POST['filterScore']) ? $_POST['filterScore'] : null;
+
 if (isset($_GET["offer"])) {
     if ($_GET["offer"] < 0 || $_GET["offer"] > 100) {
         $title = "Descuento imposible de aplicar";
@@ -86,6 +89,7 @@ if (count($productDTOResults) == 0) {
 }
 $error
 ?>
+
 <div class="container">
     <div class="row m-3 p-4 d-flex flex-row shadow">
         <div class="col col-md-6 d-flex flex-col">
@@ -132,28 +136,74 @@ $error
         </div>
 
         <h2 id="reviews">Reseñas (<?= count($reviewDTOResults) ?>)</h2>
-        <?php foreach ($reviewDTOResults as $review) : ?>
-            <div class="card m-1 ps-4 pt-2 pb-2">
-                <?php $user = $reviewDAO->getReviewAuthor($productID, $review->getID())[0] ?>
-                <div class="row">
-                    Usuario: <?= $user->getName() ?> <?= $user->getSurname() ?>
+
+        <div class="row">
+            <div class="row spacing-small">
+                <h6 class="size-small color-base reviews-filter-by-label text-bold text-caps">
+                    FILTRAR POR
+                </h6>
+            </div>
+            <div class="row reviews-filter-by-dropdown" style="display: flex; align-items: center;">
+                <div class="column label3 review-rating-select" style="margin-right: -700px; flex: 1;">
+                    <label for="filter-dropdown">
+                        <select id="filter-dropdown" class="form-select rounded-pill shadow border" aria-expanded="false" style="max-width: 220px;">
+                            <option value="all">Todas las puntuaciones</option>
+                            <option value="5">5 estrellas</option>
+                            <option value="4">4 estrellas</option>
+                            <option value="3">3 estrellas</option>
+                            <option value="2">2 estrellas</option>
+                            <option value="1">1 estrella</option>
+                        </select>
+                    </label>
                 </div>
-                <div class="row">
-                    Comentario: <?= $review->getComment() ?>
-                </div>
-                <div class="row">
-                    Valoración: <?= $review->getReview() ?>
-                </div>
-                <div class="row">
-                    Fecha: <?= $review->getDate() ?>
+                <div class="column label3 date-rating-select" style="flex: 1;">
+                    <label for="sort-dropdown">
+                        <select id="sort-dropdown" class="form-select rounded-pill shadow border" aria-expanded="false" style="max-width: 220px;">
+                            <option value="recent">Más recientes primero</option>
+                            <option value="oldest">Más antiguas primero</option>
+                        </select>
+                    </label>
                 </div>
             </div>
-        <?php endforeach ?>
+        </div>
+
+        <!-- <div class="row">
+            <label for="filter-dropdown">Filtrar por puntuación:</label>
+            <select id="filter-dropdown" class="form-select rounded-pill shadow border" aria-expanded="false" style="max-width: 220px;">
+                <option value="all">Todas las puntuaciones</option>
+                <option value="5">5 estrellas</option>
+                <option value="4">4 estrellas</option>
+                <option value="3">3 estrellas</option>
+                <option value="2">2 estrellas</option>
+                <option value="1">1 estrella</option>
+            </select>
+        </div> -->
+        
+        <div class="reviews-container">
+            <?php foreach ($reviewDTOResults as $review) : ?>
+                <div class="card m-1 ps-4 pt-2 pb-2" data-review="<?= $review->getReview() ?>">
+                    <?php $user = $reviewDAO->getReviewAuthor($productID, $review->getID())[0] ?>
+                    <div class="row">
+                        Usuario: <?= $user->getName() ?> <?= $user->getSurname() ?>
+                    </div>
+                    <div class="row">
+                        Comentario: <?= $review->getComment() ?>
+                    </div>
+                    <div class="row">
+                        Valoración: <?= $review->getReview() ?>
+                    </div>
+                    <div class="row">
+                        Fecha: <?= $review->getDate() ?>
+                    </div>
+                </div>
+            <?php endforeach ?>
+        </div>
     </div>
     <?= ($reviewForm = new es\ucm\fdi\aw\forms\ReviewForm($productID))->handleForm(); ?>
 </div>
 </div>
-
+<script src="js/filterReviewsPoints.js"></script>
+<script src="js/filterReviewsDates.js"></script>
 <?php
 $content = ob_get_clean();
 require_once PROJECT_ROOT . '/includes/templates/default_template.php';

@@ -1,11 +1,5 @@
 'use strict'
 
-let session = null;
-
-const onSessionSuccess = (result) => {
-    session = result;
-};
-
 const getAddProductButton = () => {
     return `
         <div class="d-flex flex-col col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xxl-3 px-0">
@@ -20,11 +14,9 @@ const getAddProductButton = () => {
         </div>
     `;
 };
-const convertToProductHTML = (product) => {
-    //  Fails if session hasn't loaded yet because of admin panel
-    if (session === null)
-        return;
-
+const convertToProductHTMLAsync = async (product) => {
+    const session = await getSessionAsync();
+    
     let productTextContent = '';
     let adminTextContent = '';
 
@@ -96,16 +88,14 @@ const convertToProductHTML = (product) => {
     `;
 
 }
-const resetProductsView = () => {
+const resetProductsViewAsync = async () => {
     $('#products-root').empty();
 
-    if (session.isAdmin)
+    const sessionCookie = await getSessionAsync();
+
+    if (sessionCookie.isAdmin)
         $('#products-root').append(getAddProductButton());
 }
-const addProductToView = (element) => {
-    $('#products-root').append(convertToProductHTML(element));
+const addProductToViewAsync = async (element) => {
+    $('#products-root').append(await convertToProductHTMLAsync(element));
 }
-
-window.addEventListener('load', () => {
-    getSessionAsync(onSessionSuccess, null);
-});
