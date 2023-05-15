@@ -19,13 +19,18 @@ $my_array= $listasUsuario->getUserLists($uID);
 
 $data = $_REQUEST;
 $name= $data['listName'];
-
+$listIDtoDel = 0;
 if (!empty($data['listID']))
     $listIDtoDel= $data['listID'];
 
+
 $listas = $wishListDAO->read();
 $pos = count($listas);
-$listID = $listas[$pos-1]->getID()+1;
+if (!empty($listas)){
+    $listID = $listas[$pos-1]->getID()+1;
+}else{
+    $listID = 0;
+}
 //create funciona
 if($data['op']==0) {
     $listDTO = new WishListDTO($listID,$name,1);
@@ -34,7 +39,7 @@ if($data['op']==0) {
     //añadimos a las listas del usuario
     $listUser = new WishListsUsersDTO($listID,$uID);
     $listasUsuario->create($listUser);
-    $response = array('success' => true, 'pos' => $listas[$pos-1]->getID());
+    $response = array('success' => true, 'pos' => $listID);
     echo json_encode($response);
 }
 //update
@@ -53,7 +58,12 @@ else if($data['op']==2) {
 
     //tenemos que eliminar la lista de la bd
     $wishListDAO->deleteList($listIDtoDel);
-    $response = array('success' => true, 'pos' => $listas[0]->getID());
+    $listas = $wishListDAO->read();
+    if (!empty($listas))
+        $response = array('success' => true, 'pos' => $listas[0]->getID());
+    else{
+        $response = array('success' => true, 'pos' => 0);
+    }
     echo json_encode($response);
 }
 ?>
