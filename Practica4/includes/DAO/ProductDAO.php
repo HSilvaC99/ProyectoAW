@@ -141,6 +141,23 @@ class ProductDAO extends DAO
         return $statement->fetchAll();
     }
 
+    public function readLastProduct()
+    {
+        $query = "SELECT * FROM products ORDER BY id DESC LIMIT 1";
+
+        $statement = $this->m_DatabaseProxy->prepare($query);
+        $statement->execute();
+
+        $results = array();
+        $productDAO = new ProductDAO;
+
+        foreach ($statement as $result) {
+            array_push($results, $productDAO->createDTOFromArray($result));
+        }
+
+        return $results;
+    }
+
     public function createDTOFromArray($array): DTO
     {
         $id = $array[self::ID_KEY];

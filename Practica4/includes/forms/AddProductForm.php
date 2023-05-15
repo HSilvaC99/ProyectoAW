@@ -2,8 +2,14 @@
 
 namespace es\ucm\fdi\aw\forms;
 
+use es\ucm\fdi\aw\DAO\CategoryDAO;
+use es\ucm\fdi\aw\DAO\ManufacturerDAO;
+use es\ucm\fdi\aw\DAO\ProductCategoryDAO;
 use es\ucm\fdi\aw\DAO\ProductDAO;
+use es\ucm\fdi\aw\DAO\ProductManufacturerDAO;
+use es\ucm\fdi\aw\DTO\ProductCategoryDTO;
 use es\ucm\fdi\aw\DTO\ProductDTO;
+use es\ucm\fdi\aw\DTO\ProductManufacturerDTO;
 
 require_once 'includes/config.php';
 
@@ -18,7 +24,7 @@ class AddProductForm extends Form
     public function __construct()
     {
         parent::__construct(
-            self::FORM_ID, 
+            self::FORM_ID,
             array(
                 parent::URL_REDIRECTION_KEY => self::URL_REDIRECTION,
                 parent::ENCODE_TYPE_KEY => self::ENCODE_TYPE
@@ -41,11 +47,10 @@ class AddProductForm extends Form
         if (file_exists($targetFile))
             $this->m_Errors['iamge_already_exists'] = "Esta imagen ya se ha subido antes, pruebe con otra por favor";
 
-        if (!move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $targetFile))
-            $this->m_Errors['unknown_error'] = "Ha ocurrido un error inesperado al subir la imagen";
-
         if (count($this->m_Errors) > 0)
             return;
+
+        move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $targetFile);
 
         $productDAO = new ProductDAO;
 
@@ -54,7 +59,18 @@ class AddProductForm extends Form
         $description = $data["description"];
         $offer = $data["offer"];
 
-        $productDAO->create(new ProductDTO(null, $name, $description, $imgName, $price, $offer));
+        $product = $productDAO->create(new ProductDTO(null, $name, $description, $imgName, $price, $offer));
+
+        $product = $productDAO->readLastProduct()[0];
+
+        $manufacturerID = $data["manufacturer"];
+        $categoryID = $data["category"];
+
+        $productManufacturerDAO = new ProductManufacturerDAO();
+        $productCategoryDAO = new ProductCategoryDAO();
+
+        $productManufacturerDAO->create(new ProductManufacturerDTO($product->getID(), $manufacturerID));
+        $productCategoryDAO->create(new ProductCategoryDTO($product->getID(), $categoryID));
     }
     protected function generateFormFields($data)
     {
@@ -68,6 +84,42 @@ class AddProductForm extends Form
                 </div>
                 HTML_ERROR;
             }
+        }
+
+        $manufacturerDAO = new ManufacturerDAO();
+        $manufacturersResults = $manufacturerDAO->read();
+        $manufacturersOptions = '';
+        $manufacturerIndex = 0;
+
+        foreach ($manufacturersResults as $manufacturer) {
+
+            $id = $manufacturer->getID();
+            $name = $manufacturer->getName();
+            $isSelected = $manufacturerIndex == 0 ? "selected" : "";
+            $manufacturerIndex++;
+
+            $manufacturersOptions .=
+                <<<HTML
+                    <option value="{$id}" {$isSelected}>{$name}</option>
+                HTML;
+        }
+
+        $categoryDAO = new CategoryDAO();
+        $categoriesResults = $categoryDAO->read();
+        $categoriesOptions = '';
+        $categoryIndex = 0;
+
+        foreach ($categoriesResults as $category) {
+
+            $id = $category->getID();
+            $name = $category->getName();
+            $isSelected = $categoryIndex == 0 ? "selected" : "";
+            $categoryIndex++;
+
+            $categoriesOptions .=
+                <<<HTML
+                    <option value="{$id}" {$isSelected}>{$name}</option>
+                HTML;
         }
 
         return <<<HTML_FORM
@@ -94,6 +146,18 @@ class AddProductForm extends Form
             <div class="form-group my-1">
                 <label for="textBox" class="form-label">Descripción del producto</label>
                 <textarea class="form-control" style="resize: none;" rows="10" name="description"></textarea>
+            </div>
+            <div class="col-6 my-1">
+                <label for="manufacturer">Fabricante</label>
+                <select name="manufacturer" class="form-control">
+                    {$manufacturersOptions}
+                </select>
+            </div>
+            <div class="col-6 my-1">
+                <label for="category">Categoría</label>
+                <select name="category" class="form-control">
+                    {$categoriesOptions}
+                </select>
             </div>
             <div class="col-12 my-3">
                 Imagen del producto:<br>
